@@ -31,10 +31,10 @@ public class DFSIntersectFinderNoCuboid4DHashSLOW {
 	public static final int NUM_ROTATIONS = 6;
 	public static final int NUM_NEIGHBOURS = NUM_ROTATIONS;
 
-	public static int DEBUG_NUM_CELLS = 9;
+	public static int DEBUG_NUM_CELLS = 10;
 	//Dup removed:
 	// I got https://oeis.org/A038119 on the 3rd try. I still think there might be a bug though.
-	//1, 1, 2, 7, 23, 112, 607, 3811
+	//1, 1, 2, 7, 23, 112, 607, 3811, 25413
 	
 	//1, 6, 45, 344, 2670, 20886, 164514, 1303304, 10375830, 82947380, 
 	//1, 3, 15, 86, 534, 3481, 23502, 162913, 1152870, 8294738, 60494549, 446205905, 3322769321
