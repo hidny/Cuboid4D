@@ -11,6 +11,30 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 	public HashSet <BigInteger> solutionsFound = new HashSet <BigInteger>();
 	public BigInteger lastSolution = null;
 	
+	public BigInteger powersOfTwo[];
+	
+	public static final BigInteger TWO = new BigInteger("2");
+	
+	public SolutionResolverMemBasic() {
+	
+		powersOfTwo = new BigInteger[10000];
+		
+		BigInteger cur = BigInteger.ONE;
+		
+		for(int i=0; i<powersOfTwo.length; i++) {
+			powersOfTwo[i] = cur;
+			cur = cur.multiply(TWO);
+		}
+	}
+	
+	public BigInteger getPowTwo(int pow) {
+		
+		if(pow < powersOfTwo.length) {
+			return powersOfTwo[pow];
+		} else {
+			return TWO.pow(pow);
+		}
+	}
 	
 	@Override
 	public long getNumUniqueFound() {
@@ -54,8 +78,6 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 	
 	public static final String orders[] = new String[] {"123", "132", "213", "231", "312", "321"};
 	
-	//TODO: pre-computer the powers of 2 please.
-	
 	private BigInteger getScoreForPerm(Coord3D paperToDevelop[], int borders[][], int ordering_3_perm, int dirOrder) {
 		
 		BigInteger ret = BigInteger.ZERO;
@@ -73,8 +95,7 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 		int lengthK = borders[2][1] - borders[2][0] + 1;
 		
 
-		BigInteger metaPart1 = new BigInteger("2");
-		metaPart1 = metaPart1.pow(lengthI * lengthJ * lengthK);
+		BigInteger metaPart1 = getPowTwo(lengthI * lengthJ * lengthK);
 		
 		
 		for(int i=0; i<3; i++) {
@@ -150,9 +171,8 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 				}
 			}
 			
-			BigInteger numToAdd = new BigInteger("2");
 			//System.out.println("numPow2: " + numPow2);
-			numToAdd = numToAdd.pow(numPow2);
+			BigInteger numToAdd = getPowTwo(numPow2);
 			
 			ret = ret.add(numToAdd);
 			

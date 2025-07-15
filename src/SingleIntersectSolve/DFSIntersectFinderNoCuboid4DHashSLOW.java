@@ -144,6 +144,7 @@ public class DFSIntersectFinderNoCuboid4DHashSLOW {
 			long numSolutions = doDepthFirstSearch(paperToDevelop, indexCuboidOnPaper, GRID_SIZE, numCellsUsedDepth, solutionResolver, false, debugIterations, CellIndexToOrderOfDev, 0, 0);
 			
 
+			System.out.println();
 			System.out.println("Num solutions after removing dups: " + numSolutions);
 			System.out.println("Num solutions: " + origFixedNumberDebug);
 			System.out.println("Num solutions corrected for translation: " + (origFixedNumberDebug/DEBUG_NUM_CELLS));
