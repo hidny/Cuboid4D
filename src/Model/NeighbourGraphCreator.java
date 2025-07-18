@@ -152,7 +152,7 @@ public class NeighbourGraphCreator {
 						System.exit(1);
 					}
 					
-					System.out.println("( " +i + ", " + j + " , " + k + "): " + neighToUse[i][j][k]);
+					//System.out.println("( " +i + ", " + j + " , " + k + "): " + neighToUse[i][j][k]);
 				}
 			}
 		}
