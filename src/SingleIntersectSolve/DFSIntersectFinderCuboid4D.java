@@ -1,14 +1,14 @@
 package SingleIntersectSolve;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 
+import Coord.Coord3D_Debug;
+
 //TODO: clean up and make a nice algo that will get A001931
 
-import Coord.Coord3D;
 import Model.CuboidToFoldOn4D;
 
 //import Coord.Coord2D;
@@ -80,8 +80,8 @@ public class DFSIntersectFinderCuboid4D {
 		
 
 		//TODO: LATER use hashes to help.. (record potential expansions, and no-nos...)
-		//Coord3D paperToDevelop[] = new Coord3D[Utils.getSurfaceVolume(cuboidToBuild.getDimensions())];
-		Coord3D paperToDevelop[] = new Coord3D[cuboidToBuild.getNumCellsToFill()];
+		//Coord3D_Debug_Debug paperToDevelop[] = new Coord3D_Debug[Utils.getSurfaceVolume(cuboidToBuild.getDimensions())];
+		Coord3D_Debug paperToDevelop[] = new Coord3D_Debug[cuboidToBuild.getNumCellsToFill()];
 		for(int i=0; i<paperToDevelop.length; i++) {
 			paperToDevelop[i] = null;
 		}
@@ -120,7 +120,7 @@ public class DFSIntersectFinderCuboid4D {
 		//Clearing solutions found:
 		SolutionResolverMemBasic.solutionsFound = new HashSet <BigInteger>();
 		
-		paperToDevelop[numCellsUsedDepth] = new Coord3D(START_I, START_J, START_K);
+		paperToDevelop[numCellsUsedDepth] = new Coord3D_Debug(START_I, START_J, START_K, firstCellIndex);
 		
 		//cuboid.setCell(START_INDEX, START_ROTATION);
 		indexCuboidOnPaper.put(toHashNum(START_I, START_J, START_K, GRID_SIZE), START_INDEX);
@@ -169,6 +169,8 @@ public class DFSIntersectFinderCuboid4D {
 			System.out.println("1st cuboid stats: " + startIndex + " and a rotation index of (" + startBlockDir1 +", " + startBlockDir2 + ").");
 			System.out.println("Current UTC timestamp in milliseconds: " + System.currentTimeMillis());
 			
+			System.out.println("EXITING ON PURPOSE");
+			System.exit(1);
 		//}
 		
 		//TODO: end todo 2nd one
@@ -184,7 +186,7 @@ public class DFSIntersectFinderCuboid4D {
 		return i * GRID_SIZE * GRID_SIZE + j * GRID_SIZE + k;
 	}
 	
-	public static int toHashNum(Coord3D coord, int GRID_SIZE) {
+	public static int toHashNum(Coord3D_Debug coord, int GRID_SIZE) {
 		
 		return coord.i * GRID_SIZE * GRID_SIZE + coord.j * GRID_SIZE + coord.k;
 	}
@@ -194,7 +196,7 @@ public class DFSIntersectFinderCuboid4D {
 	
 	public static long origFixedNumberDebug = 0;
 
-	public static long doDepthFirstSearch(Coord3D paperToDevelop[], Hashtable <Integer, Integer> indexCuboidOnPaper, int GRID_SIZE,/* CuboidToFoldOn cuboid, */int numCellsUsedDepth,
+	public static long doDepthFirstSearch(Coord3D_Debug paperToDevelop[], Hashtable <Integer, Integer> indexCuboidOnPaper, int GRID_SIZE,/* CuboidToFoldOn cuboid, */int numCellsUsedDepth,
 			SolutionResolverInterface solutionResolver, /*CuboidToFoldOn cuboidToBringAlongStartRot, int indexCuboidOnPaper2ndCuboid[][][],*/
 			boolean debugNope, long debugIterations[],
 			HashMap <Integer, Integer> CellIndexToOrderOfDev, int minIndexToUse, int minRotationToUse,
@@ -352,7 +354,7 @@ public class DFSIntersectFinderCuboid4D {
 					//cuboidToBringAlongStartRot.setCell(indexNewCell2, rotationNeighbourPaperRelativeToMap2);
 					
 					indexCuboidOnPaper.put(toHashNum(new_i, new_j, new_k, GRID_SIZE), indexNewCell);
-					paperToDevelop[numCellsUsedDepth] = new Coord3D(new_i, new_j, new_k);
+					paperToDevelop[numCellsUsedDepth] = new Coord3D_Debug(new_i, new_j, new_k, indexNewCell);
 
 					//indexCuboidOnPaper2ndCuboid[new_i][new_j] = indexNewCell2;
 
@@ -393,7 +395,7 @@ public class DFSIntersectFinderCuboid4D {
 	//public static final int ONE_EIGHTY_ROTATION = 3;
 	
 	
-	public static boolean cantAddCellBecauseOfOtherPaperNeighbours(Coord3D paperToDevelop[], Hashtable <Integer, Integer> indexCuboidOnPaper,
+	public static boolean cantAddCellBecauseOfOtherPaperNeighbours(Coord3D_Debug paperToDevelop[], Hashtable <Integer, Integer> indexCuboidOnPaper,
 			int GRID_SIZE,
 			/* CuboidToFoldOn cuboid, */int numCellsUsedDepth,
 			HashMap <Integer, Integer> CellIndexToOrderOfDev, int minIndexToUse, int minRotationToUse,
@@ -441,7 +443,7 @@ public class DFSIntersectFinderCuboid4D {
 	return cantAddCellBecauseOfOtherPaperNeighbours;
 }
 	 
-	public static boolean ALLOW_HOLES_cantAddCellBecauseOfOtherPaperNeighbours(Coord3D paperToDevelop[], int indexCuboidonPaper[][][],
+	public static boolean ALLOW_HOLES_cantAddCellBecauseOfOtherPaperNeighbours(Coord3D_Debug paperToDevelop[], int indexCuboidonPaper[][][],
 			boolean paperUsed[][][], /*CuboidToFoldOn cuboid, */int numCellsUsedDepth,
 			HashMap <Integer, Integer> CellIndexToOrderOfDev, int minIndexToUse, int minRotationToUse,
 			int indexNewCell, int new_i, int new_j, int new_k, int curOrderedIndexToUse

@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.HashSet;
 
 import Coord.Coord3D;
+import Coord.Coord3D_Debug;
 
 public class SolutionResolverMemBasic implements SolutionResolverInterface {
 
@@ -65,12 +66,54 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 			
 			solutionsFound.add(ret);
 			lastSolution = ret;
+			printSolution(paperToDevelop);
 			
 			return 1;
 		} else {
 			return 0;
 		}
 		
+	}
+	
+	public static void printSolution(Coord3D paperToDevelop[]) {
+		int borders[][] = getBorders(paperToDevelop);
+		
+
+		System.out.println("Solution:");
+		for(int i=borders[0][0]; i<=borders[0][1]; i++) {
+			
+			for(int j=borders[1][0]; j<=borders[1][1]; j++) {
+				for(int k=borders[2][0]; k<=borders[2][1]; k++) {
+					
+					boolean found = false;
+					int indexFound = -1;
+					for(int m=0; m<paperToDevelop.length; m++) {
+						if(paperToDevelop[m].i == i && paperToDevelop[m].j == j && paperToDevelop[m].k == k) {
+							found = true;
+							indexFound = m;
+							break;
+						}
+					}
+					
+					if(found) {
+						if(paperToDevelop[indexFound] instanceof Coord3D_Debug) {
+
+							System.out.print(((Coord3D_Debug)paperToDevelop[indexFound]).debugIndex);
+						} else {
+							System.out.print("#");
+						}
+					} else {
+						System.out.print("_");
+					}
+				}
+
+				System.out.println();
+			}
+			
+			System.out.println();
+			System.out.println();
+			System.out.println();
+		}
 	}
 	
 	public static final BigInteger EXTENSIBLE_START = new BigInteger("3");
@@ -185,7 +228,7 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 	}
 	
 	
-	private int[][] getBorders(Coord3D paperToDevelop[]) {
+	private static int[][] getBorders(Coord3D paperToDevelop[]) {
 		int borders[][] = new int[3][2];
 		
 		borders[0][0] = paperToDevelop[0].i;
