@@ -2,6 +2,7 @@ package Model;
 
 
 import Coord.CoordWithRotationAndIndex;
+import Coord.Neighbour3DDesc;
 
 public class NeighbourGraphCreator {
 
@@ -13,57 +14,116 @@ public class NeighbourGraphCreator {
 	public static int NUM_NEIGHBOURS = 6;
 	public static int NUM_DIMS = 6;
 
-	public static CoordWithRotationAndIndex[][] initNeighbourhood(int a, int b, int c, int d) {
+	public static final int I = 0;
+	public static final int J = 1;
+	public static final int K = 2;
+	
+
+	public static Neighbour3DDesc[][] initNeighbourhood(int a, int b, int c, int d) {
 
 		//TODO: this is not intuitive to me...
-		CoordWithRotationAndIndex neighbours[][] = new CoordWithRotationAndIndex[Utils.getSurfaceVolume(a, b, c, d)][NUM_NEIGHBOURS];
+		Neighbour3DDesc neighbours[][] = new Neighbour3DDesc[Utils.getSurfaceVolume(a, b, c, d)][NUM_NEIGHBOURS];
+		//Neighbour3DDesc(int cellIndex, int rotAxis, int rotAmount)
 		
 		if(b == 1 && c == 1 && d == 1) {
-			neighbours[0][0] = new CoordWithRotationAndIndex(1, -1);
-			neighbours[0][1] = new CoordWithRotationAndIndex(4, -1);
-			neighbours[0][2] = new CoordWithRotationAndIndex(6, -1);
-			neighbours[0][3] = new CoordWithRotationAndIndex(2, -1);
-			neighbours[0][4] = new CoordWithRotationAndIndex(5, -1);
-			neighbours[0][5] = new CoordWithRotationAndIndex(3, -1);
 			
-			for(int i=0; i<a; i++) {
-				int startIndex = 1 + 6*i;
+			//TODO: I'm 99.99999% sure I messed this up somehow:
+			
+			//TODO: I'm tried and guessed the rotations:
+			neighbours[0][0] = new Neighbour3DDesc(6, J, 1);
+			neighbours[0][1] = new Neighbour3DDesc(4, I, 3);
+			neighbours[0][2] = new Neighbour3DDesc(3, I, 0);
+			neighbours[0][3] = new Neighbour3DDesc(1, J, 3);
+			neighbours[0][4] = new Neighbour3DDesc(2, I, 1);
+			neighbours[0][5] = new Neighbour3DDesc(5, I, 2);
+
+			//TODO: I'm tried and guessed the rotations:
+			neighbours[1][5] = new Neighbour3DDesc(0, J, 3);
+			neighbours[2][5] = new Neighbour3DDesc(0, I, 1);
+			neighbours[3][5] = new Neighbour3DDesc(0, I, 0);
+			neighbours[4][5] = new Neighbour3DDesc(0, I, 3);
+			neighbours[5][5] = new Neighbour3DDesc(0, I, 2);
+			neighbours[6][5] = new Neighbour3DDesc(0, J, 1);
+			
+			
+			//In between connections attaching on k direction:
+			for(int i=0; i<a-1; i++) {
+
+				int baseIndex = 6*i;
 				
-				//TODO
+				for(int j=0; j<6; j++) {
+					int startIndex = j + baseIndex;
+					int endIndex =   j + 6*(baseIndex + 1);
+					
+					neighbours[startIndex][2] = new Neighbour3DDesc(endIndex, 0, 0);
+					neighbours[endIndex][5] =   new Neighbour3DDesc(startIndex, 0, 0);
+				}
+				
+			}
+			//In between connections attaching on i and j directions: (rotate with k axis)
+			for(int i=0; i<a; i++) {
+				
+				int baseIndex = 6*i;
+				
+				neighbours[baseIndex + 1][3] = new Neighbour3DDesc(baseIndex + 5, K, 2);
+				neighbours[baseIndex + 1][1] = new Neighbour3DDesc(baseIndex + 4, K, 3);
+				neighbours[baseIndex + 1][0] = new Neighbour3DDesc(baseIndex + 3, K, 0);
+				neighbours[baseIndex + 1][4] = new Neighbour3DDesc(baseIndex + 2, K, 1);
+				
+
+				neighbours[baseIndex + 2][3] = new Neighbour3DDesc(baseIndex + 1, K, 3);
+				neighbours[baseIndex + 2][1] = new Neighbour3DDesc(baseIndex + 3, K, 0);
+				neighbours[baseIndex + 2][0] = new Neighbour3DDesc(baseIndex + 6, K, 1);
+				neighbours[baseIndex + 2][4] = new Neighbour3DDesc(baseIndex + 5, K, 0);
+				
+				neighbours[baseIndex + 3][3] = new Neighbour3DDesc(baseIndex + 1, K, 0);
+				neighbours[baseIndex + 3][1] = new Neighbour3DDesc(baseIndex + 4, K, 0);
+				neighbours[baseIndex + 3][0] = new Neighbour3DDesc(baseIndex + 6, K, 0);
+				neighbours[baseIndex + 3][4] = new Neighbour3DDesc(baseIndex + 2, K, 0);
+
+
+				neighbours[baseIndex + 4][3] = new Neighbour3DDesc(baseIndex + 1, K, 1);
+				neighbours[baseIndex + 4][1] = new Neighbour3DDesc(baseIndex + 5, K, 0);
+				neighbours[baseIndex + 4][0] = new Neighbour3DDesc(baseIndex + 6, K, 3);
+				neighbours[baseIndex + 4][4] = new Neighbour3DDesc(baseIndex + 3, K, 0);
+				
+
+				neighbours[baseIndex + 5][3] = new Neighbour3DDesc(baseIndex + 1, K, 2);
+				neighbours[baseIndex + 5][1] = new Neighbour3DDesc(baseIndex + 2, K, 0);
+				neighbours[baseIndex + 5][0] = new Neighbour3DDesc(baseIndex + 6, K, 2);
+				neighbours[baseIndex + 5][4] = new Neighbour3DDesc(baseIndex + 4, K, 0);
+				
+
+				neighbours[baseIndex + 6][3] = new Neighbour3DDesc(baseIndex + 3, K, 0);
+				neighbours[baseIndex + 6][1] = new Neighbour3DDesc(baseIndex + 4, K, 1);
+				neighbours[baseIndex + 6][0] = new Neighbour3DDesc(baseIndex + 5, K, 0);
+				neighbours[baseIndex + 6][4] = new Neighbour3DDesc(baseIndex + 2, K, 3);
 				
 			}
 			
+			
 			int lastIndex = Utils.getSurfaceVolume(a, b, c, d) - 1;
-			neighbours[lastIndex][0] = new CoordWithRotationAndIndex(1, -1);
-			neighbours[lastIndex][1] = new CoordWithRotationAndIndex(4, -1);
-			neighbours[lastIndex][2] = new CoordWithRotationAndIndex(6, -1);
-			neighbours[lastIndex][3] = new CoordWithRotationAndIndex(2, -1);
-			neighbours[lastIndex][4] = new CoordWithRotationAndIndex(5, -1);
-			neighbours[lastIndex][5] = new CoordWithRotationAndIndex(3, -1);
+			int baseIndex = lastIndex - 7;
+			neighbours[lastIndex][0] = new Neighbour3DDesc(baseIndex + 6, J, 1);
+			neighbours[lastIndex][1] = new Neighbour3DDesc(baseIndex + 4, I, 1);
+			neighbours[lastIndex][2] = new Neighbour3DDesc(baseIndex + 5, I, 2);
+			neighbours[lastIndex][3] = new Neighbour3DDesc(baseIndex + 1, J, 3);
+			neighbours[lastIndex][4] = new Neighbour3DDesc(baseIndex + 2, I, 3);
+			neighbours[lastIndex][5] = new Neighbour3DDesc(baseIndex + 3, I, 0);
+			
+
+			//TODO: I'm tried and guessed the rotations:
+			neighbours[baseIndex + 1][2] = new Neighbour3DDesc(lastIndex, J, 3);
+			neighbours[baseIndex + 2][2] = new Neighbour3DDesc(lastIndex, I, 3);
+			neighbours[baseIndex + 3][2] = new Neighbour3DDesc(lastIndex, I, 0);
+			neighbours[baseIndex + 4][2] = new Neighbour3DDesc(lastIndex, I, 1);
+			neighbours[baseIndex + 5][2] = new Neighbour3DDesc(lastIndex, I, 2);
+			neighbours[baseIndex + 6][2] = new Neighbour3DDesc(lastIndex, J, 1);
 			
 			
 		} else if(b == 2 && c == 1 && d == 1) {
-			neighbours[0][0] = new CoordWithRotationAndIndex(1, -1);
-			neighbours[0][1] = new CoordWithRotationAndIndex(4, -1);
-			neighbours[0][2] = new CoordWithRotationAndIndex(6, -1);
-			neighbours[0][3] = new CoordWithRotationAndIndex(2, -1);
-			neighbours[0][4] = new CoordWithRotationAndIndex(5, -1);
-			neighbours[0][5] = new CoordWithRotationAndIndex(3, -1);
 			
-			for(int i=0; i<a; i++) {
-				int startIndex = 1 + 10*i;
-
-				//TODO
-				
-			}
-			
-			int lastIndex = Utils.getSurfaceVolume(a, b, c, d) - 1;
-			neighbours[lastIndex][0] = new CoordWithRotationAndIndex(1, -1);
-			neighbours[lastIndex][1] = new CoordWithRotationAndIndex(4, -1);
-			neighbours[lastIndex][2] = new CoordWithRotationAndIndex(6, -1);
-			neighbours[lastIndex][3] = new CoordWithRotationAndIndex(2, -1);
-			neighbours[lastIndex][4] = new CoordWithRotationAndIndex(5, -1);
-			neighbours[lastIndex][5] = new CoordWithRotationAndIndex(3, -1);
+			//TODO
 			
 		} else {
 			System.out.println("Not ready for different dimensions yet");

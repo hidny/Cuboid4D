@@ -8,7 +8,7 @@ import Coord.Coord3D;
 public class SolutionResolverMemBasic implements SolutionResolverInterface {
 
 	
-	public HashSet <BigInteger> solutionsFound = new HashSet <BigInteger>();
+	public static HashSet <BigInteger> solutionsFound = new HashSet <BigInteger>();
 	public BigInteger lastSolution = null;
 	
 	public BigInteger powersOfTwo[];
