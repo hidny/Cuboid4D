@@ -96,7 +96,7 @@ public class NeighbourGraphCreator {
 
 				neighbours[baseIndex + 6][3] = new Neighbour3DDesc(baseIndex + 3, K, 0);
 				neighbours[baseIndex + 6][1] = new Neighbour3DDesc(baseIndex + 4, K, 1);
-				neighbours[baseIndex + 6][0] = new Neighbour3DDesc(baseIndex + 5, K, 0);
+				neighbours[baseIndex + 6][0] = new Neighbour3DDesc(baseIndex + 5, K, 2);
 				neighbours[baseIndex + 6][4] = new Neighbour3DDesc(baseIndex + 2, K, 3);
 				
 			}
