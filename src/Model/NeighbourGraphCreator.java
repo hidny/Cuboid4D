@@ -4,6 +4,17 @@ package Model;
 import Coord.CoordWithRotationAndIndex;
 import Coord.Neighbour3DDesc;
 
+/*
+ * 
+Solution:
+_____   3,2,1   _____   
+6,4,2   4,2,1   _____   
+_____   5,2,1   7,2,1   
+_____   2,2,1   1,1,5   
+_____   0,0,1   _____   
+
+index 0 - > 2 is really messed up here. Investigate! 
+ */
 public class NeighbourGraphCreator {
 
 	//Goal:
