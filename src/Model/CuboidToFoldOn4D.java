@@ -198,6 +198,7 @@ public class CuboidToFoldOn4D {
 		int modelAttachmentIndex0To5 = neighbourIndexToUse[blockIndex][cellDir1[origIndex]][cellDir2[origIndex]];
 		int newCellIndex = neighbours[origIndex][modelAttachmentIndex0To5].cellIndex;
 		
+		
 		if(!cellsUsed[origIndex]) {
 			System.out.println("Error: adding cell when the cell it attaches from is not activated! (attachCell 3)");
 			System.exit(1);

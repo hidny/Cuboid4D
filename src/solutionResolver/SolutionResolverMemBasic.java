@@ -134,9 +134,9 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 			System.out.println();
 		}
 		
-		if(solutionsFound.size() == 2) {
+		if(solutionsFound.size() == 3) {
 			System.out.println("DEBUG");
-			System.exit(1);
+			//System.exit(1);
 		}
 	}
 	
