@@ -55,7 +55,9 @@ public class DFSIntersectFinderCuboid4D {
 			solutionResolver = new StandardResolverForSmallIntersectSolutions();
 		}*/
 		
-		System.out.println("Counting the number of solutions starting from anywhere:");
+		
+		solveCuboidIntersections(cuboidToBuild, solutionResolver, 0, 0, 1);
+		/*System.out.println("Counting the number of solutions starting from anywhere:");
 		for(int i=0; i<cuboidToBuild.getNumCellsToFill(); i++) {
 			for(int j=0; j<NUM_NEIGHBOURS; j++) {
 				for(int k=0; k<NUM_NEIGHBOURS; k++) {
@@ -63,11 +65,11 @@ public class DFSIntersectFinderCuboid4D {
 					if((j-k) % 3 == 0) {
 						continue;
 					}
-					solveCuboidIntersections(cuboidToBuild, /*cuboidToBringAlong, */solutionResolver, i, j, k);
+					solveCuboidIntersections(cuboidToBuild, solutionResolver, i, j, k);
 					
 				}
 			}
-		}
+		}*/
 	}
 
 	
@@ -105,25 +107,20 @@ public class DFSIntersectFinderCuboid4D {
 		//Once this reaches the total area, we're done!
 		int numCellsUsedDepth = 0;
 
-		int START_INDEX = 0;
-		int START_ROTATION = 0;
 		
 		cuboidToBuild.clearState();
 		
 		//TODO: test by switching this around and making sure it's the same:
 		// also: (param2 - param3) % 3 != 0
-		int firstCellIndex = 0;
-		int cellDir1 = 0;
-		int cellDir2 = 1;
-		cuboidToBuild.initializeFirstCell(firstCellIndex, cellDir1, cellDir2);
+		cuboidToBuild.initializeFirstCell(startIndex, startBlockDir1, startBlockDir2);
 		
 		//Clearing solutions found:
 		SolutionResolverMemBasic.solutionsFound = new HashSet <BigInteger>();
 		
-		paperToDevelop[numCellsUsedDepth] = new Coord3D_Debug(START_I, START_J, START_K, firstCellIndex);
+		paperToDevelop[numCellsUsedDepth] = new Coord3D_Debug(START_I, START_J, START_K, startIndex, startBlockDir1, startBlockDir2);
 		
 		//cuboid.setCell(START_INDEX, START_ROTATION);
-		indexCuboidOnPaper.put(toHashNum(START_I, START_J, START_K, GRID_SIZE), START_INDEX);
+		indexCuboidOnPaper.put(toHashNum(START_I, START_J, START_K, GRID_SIZE), startIndex);
 		numCellsUsedDepth += 1;
 		
 		
@@ -157,7 +154,7 @@ public class DFSIntersectFinderCuboid4D {
 			long debugIterations[] = new long[cuboidToBuild.getNumCellsToFill()];
 			
 			HashMap<Integer, Integer> CellIndexToOrderOfDev = new HashMap <Integer, Integer>();
-			CellIndexToOrderOfDev.put(firstCellIndex, 0);
+			CellIndexToOrderOfDev.put(startIndex, 0);
 			
 			long numSolutions = doDepthFirstSearch(paperToDevelop, indexCuboidOnPaper, GRID_SIZE, numCellsUsedDepth, solutionResolver, false, debugIterations, CellIndexToOrderOfDev, 0, 0, cuboidToBuild);
 			
@@ -354,11 +351,13 @@ public class DFSIntersectFinderCuboid4D {
 					//cuboidToBringAlongStartRot.setCell(indexNewCell2, rotationNeighbourPaperRelativeToMap2);
 					
 					indexCuboidOnPaper.put(toHashNum(new_i, new_j, new_k, GRID_SIZE), indexNewCell);
-					paperToDevelop[numCellsUsedDepth] = new Coord3D_Debug(new_i, new_j, new_k, indexNewCell);
+					
+					cuboidToBuild.attachCell(indexToUse, dirNewCellAdd);
+					
+					paperToDevelop[numCellsUsedDepth] = new Coord3D_Debug(new_i, new_j, new_k, indexNewCell, cuboidToBuild.debugGetCellDir1(indexNewCell), cuboidToBuild.debugGetCellDir2(indexNewCell));
 
 					//indexCuboidOnPaper2ndCuboid[new_i][new_j] = indexNewCell2;
 
-					cuboidToBuild.attachCell(indexToUse, dirNewCellAdd);
 					
 					
 					//End setup

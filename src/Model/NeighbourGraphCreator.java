@@ -140,6 +140,7 @@ public class NeighbourGraphCreator {
 	// 2nd one is which model dir points at block view dir 0
 	// 2nd one is which model dir points at block view dir 1
 	// Note that the 2nd and 3rd one will always be orthogonal.
+	// Output: which local block index to attach new cell to.
 	public static int[][][] setupNeighToUse() {
 		
 		int neighToUse[][][] = new int[NUM_NEIGHBOURS][NUM_NEIGHBOURS][NUM_NEIGHBOURS];
@@ -260,6 +261,38 @@ public class NeighbourGraphCreator {
 			System.out.println();
 			System.out.println();
 		}
+		
+
+		System.out.println("#######################");
+		System.out.println("#######################");
+		System.out.println("#######################");
+		System.out.println("#######################");
+		System.out.println("#######################");
+		System.out.println("Axis Test");
+		System.out.println("Axis Test");
+		System.out.println("Axis Test");
+		System.out.println("Axis Test");
+		System.out.println("Axis Test");
+		result = setupAxisToUse();
+		
+		
+		for(int i=0; i<result.length; i++) {
+
+			System.out.println("i = " + i);
+			for(int j=0; j<result[0].length; j++) {
+				for(int k=0; k<result[0].length; k++) {
+					
+					if(("" + result[i][j][k]).length() == 1) {
+						System.out.print(" ");
+					}
+					System.out.print("       " + result[i][j][k]);
+				}
+				System.out.println();
+			}
+			System.out.println();
+			System.out.println();
+			System.out.println();
+		}
 	}
 	
 	public static int getIndexDir(int dirsByGlobalIndex[][], int a[]) {
@@ -284,5 +317,45 @@ public class NeighbourGraphCreator {
 			System.out.print(" " + a[i] + ",");
 		}
 		System.out.println(ret + "]");
+	}
+	
+	
+
+	
+	// post: setupAxisToUse[][][]
+	// where:
+	// 1st index is the localIndex
+	// 2nd one is which model dir points at block view dir 0
+	// 2nd one is which model dir points at block view dir 1
+	// Note that the 2nd and 3rd one will always be orthogonal.
+	// Output: which global block index to attach the rotation index
+	
+	//Note that in some ways, it's the inverse of neighToUse
+	public static int[][][] setupAxisToUse() {
+		int axisToUse[][][] = new int[NUM_NEIGHBOURS][NUM_NEIGHBOURS][NUM_NEIGHBOURS];
+		
+		int neighToUse[][][] = setupNeighToUse();
+		
+		for(int i=0; i<NUM_NEIGHBOURS; i++) {
+			for(int j=0; j<NUM_NEIGHBOURS; j++) {
+				for(int k=0; k<NUM_NEIGHBOURS; k++) {
+					axisToUse[i][j][k] = -1;
+				}
+			}
+		}
+		
+
+		for(int i=0; i<NUM_NEIGHBOURS; i++) {
+			for(int j=0; j<NUM_NEIGHBOURS; j++) {
+				for(int k=0; k<NUM_NEIGHBOURS; k++) {
+					
+					if(neighToUse[i][j][k] >= 0) {
+						axisToUse[neighToUse[i][j][k]][j][k] = i;
+					}
+				}
+			}
+		}
+		
+		return axisToUse;
 	}
 }

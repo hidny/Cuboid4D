@@ -75,6 +75,8 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 		
 	}
 	
+	public static final boolean DEBUG_SHOW_ROTS = true;
+	
 	public static void printSolution(Coord3D paperToDevelop[]) {
 		int borders[][] = getBorders(paperToDevelop);
 		
@@ -95,15 +97,30 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 						}
 					}
 					
-					if(found) {
-						if(paperToDevelop[indexFound] instanceof Coord3D_Debug) {
-
-							System.out.print(((Coord3D_Debug)paperToDevelop[indexFound]).debugIndex);
+					if(DEBUG_SHOW_ROTS) {
+						if(found) {
+							if(paperToDevelop[indexFound] instanceof Coord3D_Debug) {
+	
+								System.out.print(((Coord3D_Debug)paperToDevelop[indexFound]).debugIndex + "," + ((Coord3D_Debug)paperToDevelop[indexFound]).debugDir1 + "," + ((Coord3D_Debug)paperToDevelop[indexFound]).debugDir2 + "   ");
+							} else {
+								System.out.print("########");
+							}
 						} else {
-							System.out.print("#");
+							System.out.print("_____   ");
+							
 						}
 					} else {
-						System.out.print("_");
+						if(found) {
+							if(paperToDevelop[indexFound] instanceof Coord3D_Debug) {
+	
+								System.out.print(((Coord3D_Debug)paperToDevelop[indexFound]).debugIndex);
+							} else {
+								System.out.print("#");
+							}
+						} else {
+							System.out.print("_");
+							
+						}
 					}
 				}
 

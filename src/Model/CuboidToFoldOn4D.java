@@ -9,6 +9,7 @@ public class CuboidToFoldOn4D {
 	public static final int NUM_NEIGHBOURS = 6;
 
 	public static final int neighbourIndexToUse[][][] = NeighbourGraphCreator.setupNeighToUse();
+	public static final int glabalAxisIndexToUse[][][] = NeighbourGraphCreator.setupAxisToUse();
 	
 	private Neighbour3DDesc[][] neighbours;
 	
@@ -19,11 +20,20 @@ public class CuboidToFoldOn4D {
 	public static int getNewCellDirAfterRotateByAxis[][][] = setupNewCellDirAfterRotateByAxis();
 	
 	public static int[][][] setupNewCellDirAfterRotateByAxis() {
-		int newCellDirAfterRotateByAxisSetup[][][] = new int[NUM_AXIS][NUM_MULT_PI_OVER_4][NUM_NEIGHBOURS];
+		int newCellDirAfterRotateByAxisSetup[][][] = new int[NUM_NEIGHBOURS][NUM_MULT_PI_OVER_4][NUM_NEIGHBOURS];
 		for(int i=0; i<NUM_AXIS; i++) {
 			for(int j=0; j<NUM_MULT_PI_OVER_4; j++) {
 				for(int k=0; k<NUM_NEIGHBOURS; k++) {
 					newCellDirAfterRotateByAxisSetup[i][j][k] = setupGetNewCellDirAfterRotateByAxis(i, j, k);
+				}
+			}
+		}
+		
+		//Axis 3,4,5 are just 0,1,2, but in the reverse direction:
+		for(int i=0; i<NUM_AXIS; i++) {
+			for(int j=0; j<NUM_MULT_PI_OVER_4; j++) {
+				for(int k=0; k<NUM_NEIGHBOURS; k++) {
+					newCellDirAfterRotateByAxisSetup[NUM_AXIS + i][j][k] = setupGetNewCellDirAfterRotateByAxis(i, (NUM_MULT_PI_OVER_4 - j) % NUM_MULT_PI_OVER_4, k);
 				}
 			}
 		}
@@ -165,8 +175,8 @@ public class CuboidToFoldOn4D {
 	}
 	
 	public boolean couldAttachCell(int origIndex, int blockIndex) {
-		int nextIndex0To5 = neighbourIndexToUse[blockIndex][cellDir1[origIndex]][cellDir2[origIndex]];
-		int newCellIndex = neighbours[origIndex][nextIndex0To5].cellIndex;
+		int modelAttachmentIndex0To5 = neighbourIndexToUse[blockIndex][cellDir1[origIndex]][cellDir2[origIndex]];
+		int newCellIndex = neighbours[origIndex][modelAttachmentIndex0To5].cellIndex;
 		
 		if(!cellsUsed[origIndex]) {
 			System.out.println("Error: attaching cell when the cell it attaches from is not activated! (CouldattachCell)");
@@ -185,8 +195,8 @@ public class CuboidToFoldOn4D {
 
 	public void attachCell(int origIndex, int blockIndex) {
 		
-		int nextIndex0To5 = neighbourIndexToUse[blockIndex][cellDir1[origIndex]][cellDir2[origIndex]];
-		int newCellIndex = neighbours[origIndex][nextIndex0To5].cellIndex;
+		int modelAttachmentIndex0To5 = neighbourIndexToUse[blockIndex][cellDir1[origIndex]][cellDir2[origIndex]];
+		int newCellIndex = neighbours[origIndex][modelAttachmentIndex0To5].cellIndex;
 		
 		if(!cellsUsed[origIndex]) {
 			System.out.println("Error: adding cell when the cell it attaches from is not activated! (attachCell 3)");
@@ -200,14 +210,20 @@ public class CuboidToFoldOn4D {
 
 		cellsUsed[newCellIndex] = true;
 		
+		
+		//TODO: fix this by using axisIndexToUse.
+		//TODO: accept 6 rotation axises. 3 4, 5 are just the negative dir.
+		
+		int globalRotationAxis = glabalAxisIndexToUse[blockIndex][this.cellDir1[origIndex]][this.cellDir2[origIndex]];
+		
 		this.cellDir1[newCellIndex] = getNewCellDirAfterRotateByAxis
-				[neighbours[origIndex][nextIndex0To5].rotAxis]
-				[neighbours[origIndex][nextIndex0To5].rotAmount]
+				[globalRotationAxis]
+				[neighbours[origIndex][modelAttachmentIndex0To5].rotAmount]
 				[this.cellDir1[origIndex]];
 
 		this.cellDir2[newCellIndex] = getNewCellDirAfterRotateByAxis
-				[neighbours[origIndex][nextIndex0To5].rotAxis]
-				[neighbours[origIndex][nextIndex0To5].rotAmount]
+				[globalRotationAxis]
+				[neighbours[origIndex][modelAttachmentIndex0To5].rotAmount]
 				[this.cellDir2[origIndex]];
 		
 		if((this.cellDir1[newCellIndex] - this.cellDir2[newCellIndex] % 3) == 0) {
@@ -216,10 +232,18 @@ public class CuboidToFoldOn4D {
 		}
 	}
 	
+	public int debugGetCellDir1(int cellIndex) {
+		return this.cellDir1[cellIndex];
+	}
+	
+	public int debugGetCellDir2(int cellIndex) {
+		return this.cellDir2[cellIndex];
+	}
+	
 	public void removeCellAttachment(int origIndex, int blockIndex) {
 
-		int nextIndex0To5 = neighbourIndexToUse[blockIndex][cellDir1[origIndex]][cellDir2[origIndex]];
-		int cellIndexRemove = neighbours[origIndex][nextIndex0To5].cellIndex;
+		int modelAttachmentIndex0To5 = neighbourIndexToUse[blockIndex][cellDir1[origIndex]][cellDir2[origIndex]];
+		int cellIndexRemove = neighbours[origIndex][modelAttachmentIndex0To5].cellIndex;
 
 		if(!cellsUsed[origIndex]) {
 			System.out.println("Error: removing cell when the cell it attaches from is not activated! (removeCellAttachment)");
