@@ -125,10 +125,10 @@ public class NeighbourGraphCreator {
 			int lastIndex = Utils.getSurfaceVolume(a, b, c, d) - 1;
 			int baseIndex = lastIndex - 7;
 			neighbours[lastIndex][0] = new Neighbour3DDesc(baseIndex + 6, J, 1);
-			neighbours[lastIndex][1] = new Neighbour3DDesc(baseIndex + 4, I, 1);
+			neighbours[lastIndex][1] = new Neighbour3DDesc(baseIndex + 4, I, 3);
 			neighbours[lastIndex][2] = new Neighbour3DDesc(baseIndex + 5, I, 2);
 			neighbours[lastIndex][3] = new Neighbour3DDesc(baseIndex + 1, J, 3);
-			neighbours[lastIndex][4] = new Neighbour3DDesc(baseIndex + 2, I, 3);
+			neighbours[lastIndex][4] = new Neighbour3DDesc(baseIndex + 2, I, 1);
 			neighbours[lastIndex][5] = new Neighbour3DDesc(baseIndex + 3, I, 0);
 			
 
