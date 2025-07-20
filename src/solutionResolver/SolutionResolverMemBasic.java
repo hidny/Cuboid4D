@@ -82,10 +82,12 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 		
 
 		System.out.println("Solution:");
-		for(int i=borders[0][0]; i<=borders[0][1]; i++) {
+		//(k is the first loop because that matches how I drew it in the notebook)
+		for(int k=borders[2][0]; k<=borders[2][1]; k++) {
 			
-			for(int j=borders[1][0]; j<=borders[1][1]; j++) {
-				for(int k=borders[2][0]; k<=borders[2][1]; k++) {
+			for(int i=borders[0][0]; i<=borders[0][1]; i++) {
+				
+				for(int j=borders[1][0]; j<=borders[1][1]; j++) {
 					
 					boolean found = false;
 					int indexFound = -1;
@@ -130,6 +132,11 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 			System.out.println();
 			System.out.println();
 			System.out.println();
+		}
+		
+		if(solutionsFound.size() == 2) {
+			System.out.println("DEBUG");
+			System.exit(1);
 		}
 	}
 	

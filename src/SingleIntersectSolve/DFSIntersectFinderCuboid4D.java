@@ -188,7 +188,7 @@ public class DFSIntersectFinderCuboid4D {
 		return coord.i * GRID_SIZE * GRID_SIZE + coord.j * GRID_SIZE + coord.k;
 	}
 	
-	public static final int nugdeBasedOnRotation[][] = {{-1, 0, 0, 1, 0, 0}, {0, 1, 0 , 0, -1, 0}, {0, 0, 1 , 0, 0, -1}};
+	public static final int nugdeBasedOnRotation[][] = {{1, 0, 0, -1, 0, 0}, {0, 1, 0 , 0, -1, 0}, {0, 0, 1 , 0, 0, -1}};
 	public static long numIterations = 0;
 	
 	public static long origFixedNumberDebug = 0;

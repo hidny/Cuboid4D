@@ -7,13 +7,26 @@ import Coord.Neighbour3DDesc;
 /*
  * 
 Solution:
-_____   3,2,1   _____   
-6,4,2   4,2,1   _____   
-_____   5,2,1   7,2,1   
-_____   2,2,1   1,1,5   
-_____   0,0,1   _____   
+_____   _____   _____   
+_____   _____   _____   
+_____   5,5,4   _____   
+_____   _____   _____   
 
-index 0 - > 2 is really messed up here. Investigate! 
+
+
+_____   1,5,1   _____   
+2,0,2   0,0,1   4,0,5   
+_____   6,2,1   _____   
+_____   7,0,1   _____   
+
+
+
+_____   _____   _____   
+_____   3,0,1   _____   
+_____   _____   _____   
+_____   _____   _____   
+
+6,2,1 ->5,5,4 seems suspicious...
  */
 public class NeighbourGraphCreator {
 
@@ -41,10 +54,10 @@ public class NeighbourGraphCreator {
 			//TODO: I'm 99.99999% sure I messed this up somehow:
 			
 			//TODO: I'm tried and guessed the rotations:
-			neighbours[0][0] = new Neighbour3DDesc(6, J, 1);
+			neighbours[0][0] = new Neighbour3DDesc(6, J, 3);
 			neighbours[0][1] = new Neighbour3DDesc(4, I, 3);
 			neighbours[0][2] = new Neighbour3DDesc(3, I, 0);
-			neighbours[0][3] = new Neighbour3DDesc(1, J, 3);
+			neighbours[0][3] = new Neighbour3DDesc(1, J, 1);
 			neighbours[0][4] = new Neighbour3DDesc(2, I, 1);
 			neighbours[0][5] = new Neighbour3DDesc(5, I, 2);
 

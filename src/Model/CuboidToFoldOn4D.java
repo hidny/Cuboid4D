@@ -110,7 +110,7 @@ public class CuboidToFoldOn4D {
 		for(int i=0; i<cellsUsed.length; i++) {
 			cellsUsed[i] = false;
 			cellDir1[i] = -1;
-			cellDir2[2] = -1;
+			cellDir2[i] = -1;
 		}
 		
 		dimensions[0] = a;
@@ -211,10 +211,10 @@ public class CuboidToFoldOn4D {
 		cellsUsed[newCellIndex] = true;
 		
 		
-		//TODO: fix this by using axisIndexToUse.
-		//TODO: accept 6 rotation axises. 3 4, 5 are just the negative dir.
+		int localRotationAxisIndex = neighbours[origIndex][modelAttachmentIndex0To5].rotAxis;
 		
-		int globalRotationAxis = glabalAxisIndexToUse[blockIndex][this.cellDir1[origIndex]][this.cellDir2[origIndex]];
+		//TODO: accept 6 rotation axises. 3 4, 5 are just the negative dir.
+		int globalRotationAxis = glabalAxisIndexToUse[localRotationAxisIndex][this.cellDir1[origIndex]][this.cellDir2[origIndex]];
 		
 		this.cellDir1[newCellIndex] = getNewCellDirAfterRotateByAxis
 				[globalRotationAxis]
