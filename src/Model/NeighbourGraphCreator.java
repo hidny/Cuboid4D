@@ -140,6 +140,33 @@ public class NeighbourGraphCreator {
 			neighbours[baseIndex + 5][2] = new Neighbour3DDesc(lastIndex, I, 2);
 			neighbours[baseIndex + 6][2] = new Neighbour3DDesc(lastIndex, J, 3);
 			
+
+			//Validation check:
+			for(int j=2; j<=6; j++) {
+				
+				if(j == 3 || j == 5) {
+					validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{0, j}, {baseIndex + j, lastIndex}});
+				
+				} else if(j == 1 || j == 2){
+					int k = -1;
+					
+					if(j == 1) {
+						k = 6;
+					} else if(j == 2) {
+						k = 4;
+					}
+					
+					validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{0, j}, {baseIndex + j, lastIndex}, {lastIndex, baseIndex + k}, {k, 0}});
+					
+				}
+			}
+			
+			System.out.println("Check around:");
+			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{1, 4}, {4, 6}, {6, 2}, {2, 1}});
+			
+			System.out.println("END OF VALIDATION CHECKS");
+			//End valication checks
+			
 			
 		} else if(b == 2 && c == 1 && d == 1) {
 			
@@ -151,6 +178,156 @@ public class NeighbourGraphCreator {
 		}
 		
 		return neighbours;
+	}
+	
+	//The idea of this is to reduce the potential for magic number entry error in initNeighbourhood.
+	public static void validationCheckSameRotationAxisAndAmt(Neighbour3DDesc neighbours[][], int listNeighbours[][]) {
+		
+		validationCheckSameRotationAxisAndAmtPosDir(neighbours, listNeighbours);
+		
+		int revListNeighbours[][] = new int[listNeighbours.length][2];
+		
+		for(int i=0; i<revListNeighbours.length; i++) {
+			for(int j=0; j<revListNeighbours[0].length; j++) {
+				revListNeighbours[i][j] = listNeighbours[revListNeighbours.length - 1 - i][revListNeighbours[0].length - 1 - j];
+			}
+		}
+		validationCheckSameRotationAxisAndAmtPosDir(neighbours, revListNeighbours);
+		
+		validationCheckSameRotationAxisAndAmtForwardAndRev(neighbours, listNeighbours);
+	}
+	
+	private static void validationCheckSameRotationAxisAndAmtForwardAndRev(Neighbour3DDesc neighbours[][], int listNeighbours[][]) {
+
+		System.out.println("validationCheckSameRotationAxisAndAmtForwardAndRev:");
+		
+		for(int i=0; i<listNeighbours.length; i++) {
+			int firstRotAxis = -1;
+			int firstRotAmount = -1;
+			
+			for(int j=0; j<NUM_NEIGHBOURS; j++) {
+				if(neighbours[listNeighbours[i][0]][j].cellIndex == listNeighbours[i][1]) {
+					firstRotAxis = neighbours[listNeighbours[i][0]][j].rotAxis;
+					firstRotAmount = neighbours[listNeighbours[i][0]][j].rotAmount;
+				}
+			}
+			
+			if(firstRotAxis == -1) {
+				System.out.println("ERROR: rotAmount for index " + i + " does not exist in validationCheckSameRotationAxisAndAmtForwardAndRev does not exist.");
+				
+				System.out.println("Relevant link: " + listNeighbours[i][0] + " -> " + listNeighbours[i][1]);
+				printList(listNeighbours);
+				System.exit(1);
+			}
+			int secondRotAxis = -1;
+			int secondRotAmount = -1;
+			for(int j=0; j<NUM_NEIGHBOURS; j++) {
+				if(neighbours[listNeighbours[i][1]][j].cellIndex == listNeighbours[i][0]) {
+					secondRotAxis = neighbours[listNeighbours[i][1]][j].rotAxis;
+					secondRotAmount = neighbours[listNeighbours[i][1]][j].rotAmount;
+				}
+			}
+			
+			if(secondRotAxis == -1) {
+				System.out.println("ERROR: rotAmount for index " + i + " going backwards does not exist in validationCheckSameRotationAxisAndAmtForwardAndRev does not exist.");
+				
+				System.out.println("Relevant link: " + listNeighbours[i][1] + " -> " + listNeighbours[i][0]);
+				printList(listNeighbours);
+				System.exit(1);
+			}
+			
+			if((firstRotAmount + secondRotAmount) % 4 != 0) {
+				System.out.println("ERROR: Amounts for index " + i + " do not add up to a multiple of 4 (or 360 degrees) in validationCheckSameRotationAxisAndAmtForwardAndRev does not exist.");
+				printList(listNeighbours);
+				System.exit(1);
+				
+			}
+			if(firstRotAxis != secondRotAxis) {
+				System.out.println("ERROR: rotAxis for index " + i + " going backwards does not match the axis going forward in validationCheckSameRotationAxisAndAmtForwardAndRev does not exist.");
+				printList(listNeighbours);
+				System.exit(1);
+				
+			}
+		}
+
+		System.out.println("Done validationCheckSameRotationAxisAndAmtForwardAndRev() for: ");
+		printList(listNeighbours);
+		System.out.println();
+	}
+
+	private static void validationCheckSameRotationAxisAndAmtPosDir(Neighbour3DDesc neighbours[][], int listNeighbours[][]) {
+		
+		System.out.println("ValidationCheckSameRotationAxisAndAmt:");
+		int rotAxis = -1;
+		int rotAmount = -1;
+		
+		for(int j=0; j<NUM_NEIGHBOURS; j++) {
+			if(neighbours[listNeighbours[0][0]][j].cellIndex == listNeighbours[0][1]) {
+				rotAxis = neighbours[listNeighbours[0][0]][j].rotAxis;
+				rotAmount = neighbours[listNeighbours[0][0]][j].rotAmount;
+			}
+		}
+		if(rotAxis == -1) {
+			System.out.println("ERROR: first connection in sanitySameRotationAxisAndAmt does not exist.");
+			System.out.println("Relevant link: " + listNeighbours[0][0] + " -> " + listNeighbours[0][1]);
+			printList(listNeighbours);
+			System.exit(1);
+		}
+		
+		for(int i=1; i<listNeighbours.length; i++) {
+			
+			int tmpRotAxis = -1;
+			int tmpRotAmount = -1;
+			for(int j=0; j<NUM_NEIGHBOURS; j++) {
+				
+				if(neighbours[listNeighbours[i][0]][j].cellIndex == listNeighbours[i][1]) {
+					tmpRotAxis = neighbours[listNeighbours[i][0]][j].rotAxis;
+					tmpRotAmount = neighbours[listNeighbours[i][0]][j].rotAmount;
+					
+					if(tmpRotAxis != rotAxis) {
+						System.out.println("ERROR: rotAxis for index " + i + " does not match 1st rotAxis in sanitySameRotationAxisAndAmt does not exist.");
+						printList(listNeighbours);
+						System.out.println("Relevant link: " + listNeighbours[i][0] + " -> " + listNeighbours[i][1]);
+						System.exit(1);
+					}
+
+					if(tmpRotAmount != rotAmount) {
+						System.out.println("ERROR: rotAmount for index " + i + " does not match 1st rotAmount in sanitySameRotationAxisAndAmt does not exist.");
+						printList(listNeighbours);
+						System.out.println("Relevant link: " + listNeighbours[i][0] + " -> " + listNeighbours[i][1]);
+						System.exit(1);
+					}
+					
+					break;
+				}
+			}
+			if(tmpRotAxis == -1) {
+				System.out.println("ERROR: rotAmount for index " + i + " does not exist in sanitySameRotationAxisAndAmt does not exist.");
+				printList(listNeighbours);
+				System.out.println("Relevant link: " + listNeighbours[i][0] + " -> " + listNeighbours[i][1]);
+				System.exit(1);
+			}
+			
+		}
+		
+		System.out.println("Done ValidationCheckSameRotationAxisAndAmt() for: ");
+		printList(listNeighbours);
+		System.out.println();
+		
+	}
+	
+	private static void printList(int listNeighbours[][]) {
+		System.out.println("List neighbours with same rotAxis and rotation Axis Amount:");
+		for(int i=0; i<listNeighbours.length; i++) {
+			
+			if(i < listNeighbours.length - 1) {
+				System.out.print(listNeighbours[i][0] + " -> " + listNeighbours[i][1] + ", ");
+			} else {
+
+				System.out.print(listNeighbours[i][0] + " -> " + listNeighbours[i][1] + ".");
+			}
+		}
+		System.out.println();
 	}
 	
 	
