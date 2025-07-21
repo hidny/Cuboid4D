@@ -160,9 +160,9 @@ public class DFSIntersectFinderCuboid4D {
 			
 
 			System.out.println();
-			System.out.println("Num solutions after removing dups: " + numSolutions);
+			System.out.println("Num solutions after removing dups: " + solutionResolver.getNumUniqueFound());
 			
-			System.out.println("Done with trying to intersect 2nd cuboid that has a start index of " + startIndex2ndCuboid + " and a rotation index of " + startRotation2ndCuboid +".");
+			//System.out.println("Done with trying to intersect 2nd cuboid that has a start index of " + startIndex2ndCuboid + " and a rotation index of " + startRotation2ndCuboid +".");
 			System.out.println("1st cuboid stats: " + startIndex + " and a rotation index of (" + startBlockDir1 +", " + startBlockDir2 + ").");
 			System.out.println("Current UTC timestamp in milliseconds: " + System.currentTimeMillis());
 			

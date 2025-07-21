@@ -50,20 +50,20 @@ public class NeighbourGraphCreator {
 			//TODO: I'm 99.99999% sure I messed this up somehow:
 			
 			//TODO: I'm tried and guessed the rotations:
-			neighbours[0][0] = new Neighbour3DDesc(6, J, 1);
+			neighbours[0][0] = new Neighbour3DDesc(6, J, 3);
 			neighbours[0][1] = new Neighbour3DDesc(4, I, 1);
 			neighbours[0][2] = new Neighbour3DDesc(3, I, 0);
-			neighbours[0][3] = new Neighbour3DDesc(1, J, 3);
+			neighbours[0][3] = new Neighbour3DDesc(1, J, 1);
 			neighbours[0][4] = new Neighbour3DDesc(2, I, 3);
 			neighbours[0][5] = new Neighbour3DDesc(5, I, 2);
 
 			//TODO: I'm tried and guessed the rotations:
-			neighbours[1][5] = new Neighbour3DDesc(0, J, 1);
+			neighbours[1][5] = new Neighbour3DDesc(0, J, 3);
 			neighbours[2][5] = new Neighbour3DDesc(0, I, 1);
 			neighbours[3][5] = new Neighbour3DDesc(0, I, 0);
 			neighbours[4][5] = new Neighbour3DDesc(0, I, 3);
 			neighbours[5][5] = new Neighbour3DDesc(0, I, 2);
-			neighbours[6][5] = new Neighbour3DDesc(0, J, 3);
+			neighbours[6][5] = new Neighbour3DDesc(0, J, 1);
 			
 			
 			//In between connections attaching on k direction:
@@ -124,21 +124,21 @@ public class NeighbourGraphCreator {
 			
 			int lastIndex = Utils.getSurfaceVolume(a, b, c, d) - 1;
 			int baseIndex = lastIndex - 7;
-			neighbours[lastIndex][0] = new Neighbour3DDesc(baseIndex + 6, J, 3);
+			neighbours[lastIndex][0] = new Neighbour3DDesc(baseIndex + 6, J, 1);
 			neighbours[lastIndex][1] = new Neighbour3DDesc(baseIndex + 4, I, 3);
 			neighbours[lastIndex][2] = new Neighbour3DDesc(baseIndex + 5, I, 2);
-			neighbours[lastIndex][3] = new Neighbour3DDesc(baseIndex + 1, J, 1);
+			neighbours[lastIndex][3] = new Neighbour3DDesc(baseIndex + 1, J, 3);
 			neighbours[lastIndex][4] = new Neighbour3DDesc(baseIndex + 2, I, 1);
 			neighbours[lastIndex][5] = new Neighbour3DDesc(baseIndex + 3, I, 0);
 			
 
 			//TODO: I'm tried and guessed the rotations:
-			neighbours[baseIndex + 1][2] = new Neighbour3DDesc(lastIndex, J, 3);
+			neighbours[baseIndex + 1][2] = new Neighbour3DDesc(lastIndex, J, 1);
 			neighbours[baseIndex + 2][2] = new Neighbour3DDesc(lastIndex, I, 3);
 			neighbours[baseIndex + 3][2] = new Neighbour3DDesc(lastIndex, I, 0);
 			neighbours[baseIndex + 4][2] = new Neighbour3DDesc(lastIndex, I, 1);
 			neighbours[baseIndex + 5][2] = new Neighbour3DDesc(lastIndex, I, 2);
-			neighbours[baseIndex + 6][2] = new Neighbour3DDesc(lastIndex, J, 1);
+			neighbours[baseIndex + 6][2] = new Neighbour3DDesc(lastIndex, J, 3);
 			
 
 			//Validation check:

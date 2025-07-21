@@ -39,7 +39,8 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 	
 	@Override
 	public long getNumUniqueFound() {
-		return 0;
+		System.out.println("Getting numUniqueFound");
+		return solutionsFound.size();
 	}
 	
 	public static int NUM_PERM_3 = 6;
