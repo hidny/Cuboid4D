@@ -164,6 +164,11 @@ public class NeighbourGraphCreator {
 			System.out.println("Check around:");
 			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{1, 4}, {4, 6}, {6, 2}, {2, 1}});
 			
+			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{1, 3}, {3, 6}});
+			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{2, 3}, {3, 4}, {4, 5}, {5, 2}});
+			
+			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{1, 5}, {5, 6}});
+			
 			System.out.println("END OF VALIDATION CHECKS");
 			//End valication checks
 			
