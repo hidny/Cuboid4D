@@ -6,23 +6,29 @@ import Coord.Neighbour3DDesc;
 
 /*
  * 
+Cannot be right:
+
+Look at how 7 connects with 2.
+Look at how 2 connects with 6.
+Everything connecting with 0 is right, but the other connections aren't reliable.
+I think I got the logic wrong.
 Solution:
-
-Solution:
-_____   1,5,1   _____   
-2,0,2   0,0,1   4,0,5   
-_____   6,2,1   _____   
-_____   7,0,1   _____   
+_____   _____   _____   _____   
+_____   _____   5,0,4   _____   
+_____   _____   _____   _____   
 
 
 
-_____   _____   _____   
-_____   3,0,1   5,0,5   
-_____   _____   _____   
-_____   _____   _____   
+_____   _____   1,5,1   _____   
+_____   _____   0,0,1   4,0,2   
+7,3,5   2,1,5   6,2,1   _____   
 
 
-5,0,5 should attach on other directiom
+
+_____   _____   _____   _____   
+_____   _____   3,0,1   _____   
+_____   _____   _____   _____   
+
  */
 public class NeighbourGraphCreator {
 
