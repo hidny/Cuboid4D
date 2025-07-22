@@ -82,7 +82,7 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 		int borders[][] = getBorders(paperToDevelop);
 		
 
-		System.out.println("Solution:");
+		System.out.println("Solution " + solutionsFound.size() + ":");
 		//(k is the first loop because that matches how I drew it in the notebook)
 		for(int k=borders[2][0]; k<=borders[2][1]; k++) {
 			

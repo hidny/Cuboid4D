@@ -197,21 +197,63 @@ public class CuboidToFoldOn4D {
 	public static final int LOCAL_DIR_2 = 1;
 	
 	public static int debug_it = 0;
+	
+	public int debug_get_num_cells() {
+		int ret = 0;
+		for(int i=0; i<this.cellsUsed.length; i++) {
+			if(this.cellsUsed[i]) {
+				ret++;
+			}
+		}
+		return ret;
+	}
+	
+	/*
+	 * 
+Solution:
+
+Solution 1392:
+_____   _____   _____   
+_____   2,5,4   _____   
+_____   7,1,5*   3,5,0   *: bad 2nd rotation? Shouldn't 4, 7, 2 be lined up?
+
+
+
+1,3,1   _____   _____   
+5,0,4   _____   _____   
+6,3,1   4,1,0   _____   
+
+
+
+_____   _____   _____   
+0,0,1   _____   _____   
+_____   _____   _____   
+
+
+	 */
 
 	public void attachCell(int origIndex, int blockIndex) {
 		
 		int modelAttachmentIndex0To5 = neighbourIndexToUse[blockIndex][cellDir1[origIndex]][cellDir2[origIndex]];
 		int newCellIndex = neighbours[origIndex][modelAttachmentIndex0To5].cellIndex;
 		
-		/*if(modelAttachmentIndex0To5 != blockIndex) {
+		//if(debug_get_num_cells() == 7 && modelAttachmentIndex0To5 != blockIndex && blockIndex != 0) {
+		
+		//if(debug_get_num_cells() == 7 && modelAttachmentIndex0To5 != blockIndex) {
+		//if(origIndex == 6 && blockIndex == 1 && newCellIndex == 4 && cellDir1[origIndex] == 3 && cellDir2[origIndex] == 1) {
+		/*if(origIndex == 6 && blockIndex == 1 && newCellIndex == 4 && cellDir1[origIndex] == 2 && cellDir2[origIndex] == 1) {
+			System.out.println("----------");
 			System.out.println("Test connection:");
 			System.out.println("origIndex: " + origIndex);
 			System.out.println("Block Index: " + blockIndex);
 			System.out.println();
+			System.out.println("cellDir1[origIndex]: " + cellDir1[origIndex]);
+			System.out.println("cellDir2[origIndex]: " + cellDir2[origIndex]);
+			System.out.println();
 			System.out.println("newCellIndex: " + newCellIndex);
 			
 			System.out.println("modelAttachmentIndex0To5: " + modelAttachmentIndex0To5);
-			System.exit(1);
+			//System.exit(1);
 		}*/
 		
 		if(!cellsUsed[origIndex]) {
@@ -244,7 +286,9 @@ public class CuboidToFoldOn4D {
 		this.cellDir2[newCellIndex] = glabalAxisIndexToUse[localCellDir2][this.cellDir1[origIndex]][this.cellDir2[origIndex]];
 		
 		//DEBUG
-		/*if(this.cellDir1[newCellIndex] != localCellDir1 && debug_i == 1) {
+		/*if(this.cellDir1[newCellIndex] != localCellDir1 
+		//&& debug_it == 1
+		) {
 			System.out.println("Test connection:");
 			System.out.println("origIndex: " + origIndex);
 			System.out.println("newCellIndex: " + newCellIndex);
