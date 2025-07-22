@@ -192,12 +192,27 @@ public class CuboidToFoldOn4D {
 		
 		return newCellIndex;
 	}
+	
+	public static final int LOCAL_DIR_1 = 0;
+	public static final int LOCAL_DIR_2 = 1;
+	
+	public static int debug_it = 0;
 
 	public void attachCell(int origIndex, int blockIndex) {
 		
 		int modelAttachmentIndex0To5 = neighbourIndexToUse[blockIndex][cellDir1[origIndex]][cellDir2[origIndex]];
 		int newCellIndex = neighbours[origIndex][modelAttachmentIndex0To5].cellIndex;
 		
+		/*if(modelAttachmentIndex0To5 != blockIndex) {
+			System.out.println("Test connection:");
+			System.out.println("origIndex: " + origIndex);
+			System.out.println("Block Index: " + blockIndex);
+			System.out.println();
+			System.out.println("newCellIndex: " + newCellIndex);
+			
+			System.out.println("modelAttachmentIndex0To5: " + modelAttachmentIndex0To5);
+			System.exit(1);
+		}*/
 		
 		if(!cellsUsed[origIndex]) {
 			System.out.println("Error: adding cell when the cell it attaches from is not activated! (attachCell 3)");
@@ -211,21 +226,39 @@ public class CuboidToFoldOn4D {
 
 		cellsUsed[newCellIndex] = true;
 		
-		
+	//TODO: this does not work! Rewrite it!
 		int localRotationAxisIndex = neighbours[origIndex][modelAttachmentIndex0To5].rotAxis;
 		
-		//TODO: accept 6 rotation axises. 3 4, 5 are just the negative dir.
-		int globalRotationAxis = glabalAxisIndexToUse[localRotationAxisIndex][this.cellDir1[origIndex]][this.cellDir2[origIndex]];
+		int localCellDir1 = getNewCellDirAfterRotateByAxis
+				[localRotationAxisIndex]
+				[neighbours[origIndex][modelAttachmentIndex0To5].rotAmount]
+				[LOCAL_DIR_1];
 		
-		this.cellDir1[newCellIndex] = getNewCellDirAfterRotateByAxis
-				[globalRotationAxis]
+		int localCellDir2 = getNewCellDirAfterRotateByAxis
+				[localRotationAxisIndex]
 				[neighbours[origIndex][modelAttachmentIndex0To5].rotAmount]
-				[this.cellDir1[origIndex]];
-
-		this.cellDir2[newCellIndex] = getNewCellDirAfterRotateByAxis
-				[globalRotationAxis]
-				[neighbours[origIndex][modelAttachmentIndex0To5].rotAmount]
-				[this.cellDir2[origIndex]];
+				[LOCAL_DIR_2];
+		
+			//TODO: accept 6 rotation axises. 3 4, 5 are just the negative dir.
+		this.cellDir1[newCellIndex] = glabalAxisIndexToUse[localCellDir1][this.cellDir1[origIndex]][this.cellDir2[origIndex]];
+		this.cellDir2[newCellIndex] = glabalAxisIndexToUse[localCellDir2][this.cellDir1[origIndex]][this.cellDir2[origIndex]];
+		
+		//DEBUG
+		/*if(this.cellDir1[newCellIndex] != localCellDir1 && debug_i == 1) {
+			System.out.println("Test connection:");
+			System.out.println("origIndex: " + origIndex);
+			System.out.println("newCellIndex: " + newCellIndex);
+			System.out.println();
+			System.out.println("localRotationAxisIndex: " + localRotationAxisIndex);
+			System.out.println("localRotationAmount: " + neighbours[origIndex][modelAttachmentIndex0To5].rotAmount);
+			System.out.println("modelAttachmentIndex0To5: " + modelAttachmentIndex0To5);
+			System.out.println("Local: " + localCellDir1 + ", " + localCellDir2);
+			System.out.println("Global: " + this.cellDir1[newCellIndex] + ", " + this.cellDir2[newCellIndex]);
+			System.exit(1);
+		}*/
+		debug_it++;
+		
+	//END TODO: this does not work! Rewrite it!
 		
 		if((this.cellDir1[newCellIndex] - this.cellDir2[newCellIndex] % 3) == 0) {
 			System.out.println("ERROR in attachCell: the cellDirections got aligned somehow!");
