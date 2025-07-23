@@ -215,7 +215,7 @@ Solution:
 Solution 1392:
 _____   _____   _____   
 _____   2,5,4   _____   
-_____   7,1,5*   3,5,0   *: bad 2nd rotation? Shouldn't 4, 7, 2 be lined up?
+_____   7,1,5*   3,5,0   *: bad 2nd rotation? Shouldn't 4, 7, 2 be lined up? Should be 7, 2, 0? or 7,1,2?
 
 
 
