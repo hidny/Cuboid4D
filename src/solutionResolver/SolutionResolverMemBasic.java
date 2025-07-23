@@ -135,10 +135,6 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 			System.out.println();
 		}
 		
-		if(solutionsFound.size() == 3) {
-			System.out.println("DEBUG");
-			//System.exit(1);
-		}
 	}
 	
 	public static final BigInteger EXTENSIBLE_START = new BigInteger("3");
@@ -239,7 +235,6 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 				}
 			}
 			
-			//System.out.println("numPow2: " + numPow2);
 			BigInteger numToAdd = getPowTwo(numPow2);
 			
 			ret = ret.add(numToAdd);

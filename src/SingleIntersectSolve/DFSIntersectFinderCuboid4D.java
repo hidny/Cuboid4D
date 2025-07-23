@@ -78,11 +78,6 @@ public class DFSIntersectFinderCuboid4D {
 		
 		System.out.println("Current UTC timestamp in milliseconds: " + System.currentTimeMillis());
 		
-		//cube.set start location 0 and rotation 0
-		
-
-		//TODO: LATER use hashes to help.. (record potential expansions, and no-nos...)
-		//Coord3D_Debug_Debug paperToDevelop[] = new Coord3D_Debug[Utils.getSurfaceVolume(cuboidToBuild.getDimensions())];
 		Coord3D_Debug paperToDevelop[] = new Coord3D_Debug[cuboidToBuild.getNumCellsToFill()];
 		for(int i=0; i<paperToDevelop.length; i++) {
 			paperToDevelop[i] = null;
@@ -92,22 +87,15 @@ public class DFSIntersectFinderCuboid4D {
 		int GRID_SIZE = 4*cuboidToBuild.getNumCellsToFill();
 		
 		Hashtable <Integer, Integer> indexCuboidOnPaper = new Hashtable<Integer, Integer>();
-
-		//int indexCuboidOnPaper2ndCuboid[][][] = new int[GRID_SIZE][GRID_SIZE][GRID_SIZE];
 		
 		//Default start location GRID_SIZE / 2, GRID_SIZE / 2, GRID_SIZE / 2
 		int START_I = GRID_SIZE/2;
 		int START_J = GRID_SIZE/2;
 		int START_K = GRID_SIZE/2;
 		
-		//CuboidToFoldOn cuboid = new CuboidToFoldOn(cuboidToBuild);
-		
-		//Insert start cell:
-		
 		//Once this reaches the total area, we're done!
 		int numCellsUsedDepth = 0;
 
-		
 		cuboidToBuild.clearState();
 		
 		//TODO: test by switching this around and making sure it's the same:
@@ -119,7 +107,6 @@ public class DFSIntersectFinderCuboid4D {
 		
 		paperToDevelop[numCellsUsedDepth] = new Coord3D_Debug(START_I, START_J, START_K, startIndex, startBlockDir1, startBlockDir2);
 		
-		//cuboid.setCell(START_INDEX, START_ROTATION);
 		indexCuboidOnPaper.put(toHashNum(START_I, START_J, START_K, GRID_SIZE), startIndex);
 		numCellsUsedDepth += 1;
 		
@@ -200,39 +187,15 @@ public class DFSIntersectFinderCuboid4D {
 			CuboidToFoldOn4D cuboidToBuild ) {
 
 		numIterations++;
-		//if(numCellsUsedDepth == cuboid.getNumCellsToFill()) {
+		
 		if(numCellsUsedDepth == cuboidToBuild.getNumCellsToFill()) {
-
-			//int indexes[][][][] = new int[2][][][];
-			//indexes[0] = indexCuboidonPaper;
-			//indexes[1] = indexCuboidOnPaper2ndCuboid;
-			
-			//long tmp = solutionResolver.resolveSolution(cuboid, paperToDevelop, indexes, paperUsed);
-
-			/*
-			if(debugNope) {
-				System.out.println("STOP!");
-				System.out.println(numIterations);
-				for(int i=0; i<numCellsUsedDepth; i++) {
-					System.out.println("Iteration: " + debugIterations[i]);
-				}
-				System.exit(1);
-			}
-			*/
-			
-			//return tmp;
 			
 			origFixedNumberDebug++;
-			//TODO: check for dups later
 			return solutionResolver.resolveSolution(paperToDevelop);
 		}
-
-		//Utils.printFoldWithIndex(indexCuboidonPaper);
 		
-		//Display debug/what's-going-on update
-		
-		//if(numIterations % 10000000L == 0) {
 		if(numIterations % 10000000L == 0) {
+			//Display debug/what's-going-on update
 			
 			System.out.println("Num iterations: " + numIterations);
 			//Utils.printFold(paperUsed);
@@ -253,7 +216,6 @@ public class DFSIntersectFinderCuboid4D {
 		
 		long retDuplicateSolutions = 0L;
 		
-
 		debugIterations[numCellsUsedDepth] = numIterations;
 		
 		//DEPTH-FIRST START:

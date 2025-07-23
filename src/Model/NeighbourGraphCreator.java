@@ -4,32 +4,6 @@ package Model;
 import Coord.CoordWithRotationAndIndex;
 import Coord.Neighbour3DDesc;
 
-/*
- * 
-Cannot be right:
-
-Look at how 7 connects with 2.
-Look at how 2 connects with 6.
-Everything connecting with 0 is right, but the other connections aren't reliable.
-I think I got the logic wrong.
-Solution:
-_____   _____   _____   _____   
-_____   _____   5,0,4   _____   
-_____   _____   _____   _____   
-
-
-
-_____   _____   1,5,1   _____   
-_____   _____   0,0,1   4,0,2   
-7,3,5   2,1,5   6,2,1   _____   
-
-
-
-_____   _____   _____   _____   
-_____   _____   3,0,1   _____   
-_____   _____   _____   _____   
-
- */
 public class NeighbourGraphCreator {
 
 	//Goal:
@@ -47,15 +21,10 @@ public class NeighbourGraphCreator {
 
 	public static Neighbour3DDesc[][] initNeighbourhood(int a, int b, int c, int d) {
 
-		//TODO: this is not intuitive to me...
 		Neighbour3DDesc neighbours[][] = new Neighbour3DDesc[Utils.getSurfaceVolume(a, b, c, d)][NUM_NEIGHBOURS];
-		//Neighbour3DDesc(int cellIndex, int rotAxis, int rotAmount)
 		
 		if(b == 1 && c == 1 && d == 1) {
 			
-			//TODO: I'm 99.99999% sure I messed this up somehow:
-			
-			//TODO: I'm tried and guessed the rotations:
 			neighbours[0][0] = new Neighbour3DDesc(6, J, 1);
 			neighbours[0][1] = new Neighbour3DDesc(4, I, 3);
 			neighbours[0][2] = new Neighbour3DDesc(3, I, 0);
@@ -63,7 +32,6 @@ public class NeighbourGraphCreator {
 			neighbours[0][4] = new Neighbour3DDesc(2, I, 1);
 			neighbours[0][5] = new Neighbour3DDesc(5, I, 2);
 
-			//TODO: I'm tried and guessed the rotations:
 			neighbours[1][5] = new Neighbour3DDesc(0, J, 1);
 			neighbours[2][5] = new Neighbour3DDesc(0, I, 3);
 			neighbours[3][5] = new Neighbour3DDesc(0, I, 0);
@@ -138,7 +106,6 @@ public class NeighbourGraphCreator {
 			neighbours[lastIndex][5] = new Neighbour3DDesc(baseIndex + 3, I, 0);
 			
 
-			//TODO: I'm tried and guessed the rotations:
 			neighbours[baseIndex + 1][2] = new Neighbour3DDesc(lastIndex, J, 3);
 			neighbours[baseIndex + 2][2] = new Neighbour3DDesc(lastIndex, I, 1);
 			neighbours[baseIndex + 3][2] = new Neighbour3DDesc(lastIndex, I, 0);
@@ -176,7 +143,6 @@ public class NeighbourGraphCreator {
 			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{1, 5}, {5, 6}});
 			
 			System.out.println("END OF VALIDATION CHECKS");
-			//End valication checks
 			
 			
 		} else if(b == 2 && c == 1 && d == 1) {
@@ -345,8 +311,8 @@ public class NeighbourGraphCreator {
 	// post: neighToUse[][][]
 	// where:
 	// 1st index is the globalIndex
-	// 2nd one is the block index where model index 0 points.
-	// 3rd one is the block index where model index 1 points.
+	// 2nd one is the block index where model index 0 points. (0: i + direction)
+	// 3rd one is the block index where model index 1 points. (1: j + direction)
 	// Note that the 2nd and 3rd one will always be orthogonal.
 	// Output: which local block index to attach new cell to.
 	public static int[][][] setupNeighToUse() {
