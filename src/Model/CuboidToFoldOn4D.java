@@ -91,9 +91,9 @@ public class CuboidToFoldOn4D {
 	//State variables:
 
 	private boolean cellsUsed[];
-	//Which of the 6 directions the model dir of the cell points at for block index 0: (i axis +)
+	//Which of the 6 directions the dir 0 for the model points to in the block view (i axis +)
 	private int cellDir1[];
-	//Which of the 6 directions the model dir of the cell points at for block index 1:  (j axis +)
+	//Which of the 6 directions the dir 1 for the model points to in the block view  (j axis +)
 	private int cellDir2[];
 	
 	
@@ -186,6 +186,7 @@ public class CuboidToFoldOn4D {
 		return ! cellsUsed[newCellIndex];
 	}
 	
+	//TODO: reeval: neighbourIndexToUse.
 	public int getNeighbourIndex(int origIndex, int blockIndex) {
 		int nextIndex0To5 = neighbourIndexToUse[blockIndex][cellDir1[origIndex]][cellDir2[origIndex]];
 		int newCellIndex = neighbours[origIndex][nextIndex0To5].cellIndex;

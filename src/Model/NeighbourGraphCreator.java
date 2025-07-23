@@ -56,20 +56,20 @@ public class NeighbourGraphCreator {
 			//TODO: I'm 99.99999% sure I messed this up somehow:
 			
 			//TODO: I'm tried and guessed the rotations:
-			neighbours[0][0] = new Neighbour3DDesc(6, J, 3);
-			neighbours[0][1] = new Neighbour3DDesc(4, I, 1);
+			neighbours[0][0] = new Neighbour3DDesc(6, J, 1);
+			neighbours[0][1] = new Neighbour3DDesc(4, I, 3);
 			neighbours[0][2] = new Neighbour3DDesc(3, I, 0);
-			neighbours[0][3] = new Neighbour3DDesc(1, J, 1);
-			neighbours[0][4] = new Neighbour3DDesc(2, I, 3);
+			neighbours[0][3] = new Neighbour3DDesc(1, J, 3);
+			neighbours[0][4] = new Neighbour3DDesc(2, I, 1);
 			neighbours[0][5] = new Neighbour3DDesc(5, I, 2);
 
 			//TODO: I'm tried and guessed the rotations:
-			neighbours[1][5] = new Neighbour3DDesc(0, J, 3);
-			neighbours[2][5] = new Neighbour3DDesc(0, I, 1);
+			neighbours[1][5] = new Neighbour3DDesc(0, J, 1);
+			neighbours[2][5] = new Neighbour3DDesc(0, I, 3);
 			neighbours[3][5] = new Neighbour3DDesc(0, I, 0);
-			neighbours[4][5] = new Neighbour3DDesc(0, I, 3);
+			neighbours[4][5] = new Neighbour3DDesc(0, I, 1);
 			neighbours[5][5] = new Neighbour3DDesc(0, I, 2);
-			neighbours[6][5] = new Neighbour3DDesc(0, J, 1);
+			neighbours[6][5] = new Neighbour3DDesc(0, J, 3);
 			
 			
 			//In between connections attaching on k direction:
@@ -92,14 +92,14 @@ public class NeighbourGraphCreator {
 				int baseIndex = 6*i;
 				
 				neighbours[baseIndex + 1][3] = new Neighbour3DDesc(baseIndex + 5, K, 2);
-				neighbours[baseIndex + 1][1] = new Neighbour3DDesc(baseIndex + 4, K, 3);
+				neighbours[baseIndex + 1][1] = new Neighbour3DDesc(baseIndex + 4, K, 1);
 				neighbours[baseIndex + 1][0] = new Neighbour3DDesc(baseIndex + 3, K, 0);
-				neighbours[baseIndex + 1][4] = new Neighbour3DDesc(baseIndex + 2, K, 1);
+				neighbours[baseIndex + 1][4] = new Neighbour3DDesc(baseIndex + 2, K, 3);
 				
 
-				neighbours[baseIndex + 2][3] = new Neighbour3DDesc(baseIndex + 1, K, 3);
+				neighbours[baseIndex + 2][3] = new Neighbour3DDesc(baseIndex + 1, K, 1);
 				neighbours[baseIndex + 2][1] = new Neighbour3DDesc(baseIndex + 3, K, 0);
-				neighbours[baseIndex + 2][0] = new Neighbour3DDesc(baseIndex + 6, K, 1);
+				neighbours[baseIndex + 2][0] = new Neighbour3DDesc(baseIndex + 6, K, 3);
 				neighbours[baseIndex + 2][4] = new Neighbour3DDesc(baseIndex + 5, K, 0);
 				
 				neighbours[baseIndex + 3][3] = new Neighbour3DDesc(baseIndex + 1, K, 0);
@@ -108,9 +108,9 @@ public class NeighbourGraphCreator {
 				neighbours[baseIndex + 3][4] = new Neighbour3DDesc(baseIndex + 2, K, 0);
 
 
-				neighbours[baseIndex + 4][3] = new Neighbour3DDesc(baseIndex + 1, K, 1);
+				neighbours[baseIndex + 4][3] = new Neighbour3DDesc(baseIndex + 1, K, 3);
 				neighbours[baseIndex + 4][1] = new Neighbour3DDesc(baseIndex + 5, K, 0);
-				neighbours[baseIndex + 4][0] = new Neighbour3DDesc(baseIndex + 6, K, 3);
+				neighbours[baseIndex + 4][0] = new Neighbour3DDesc(baseIndex + 6, K, 1);
 				neighbours[baseIndex + 4][4] = new Neighbour3DDesc(baseIndex + 3, K, 0);
 				
 
@@ -121,30 +121,30 @@ public class NeighbourGraphCreator {
 				
 
 				neighbours[baseIndex + 6][3] = new Neighbour3DDesc(baseIndex + 3, K, 0);
-				neighbours[baseIndex + 6][1] = new Neighbour3DDesc(baseIndex + 4, K, 1);
+				neighbours[baseIndex + 6][1] = new Neighbour3DDesc(baseIndex + 4, K, 3);
 				neighbours[baseIndex + 6][0] = new Neighbour3DDesc(baseIndex + 5, K, 2);
-				neighbours[baseIndex + 6][4] = new Neighbour3DDesc(baseIndex + 2, K, 3);
+				neighbours[baseIndex + 6][4] = new Neighbour3DDesc(baseIndex + 2, K, 1);
 				
 			}
 			
 			
 			int lastIndex = Utils.getSurfaceVolume(a, b, c, d) - 1;
 			int baseIndex = lastIndex - 7;
-			neighbours[lastIndex][0] = new Neighbour3DDesc(baseIndex + 6, J, 1);
-			neighbours[lastIndex][1] = new Neighbour3DDesc(baseIndex + 4, I, 3);
+			neighbours[lastIndex][0] = new Neighbour3DDesc(baseIndex + 6, J, 3);
+			neighbours[lastIndex][1] = new Neighbour3DDesc(baseIndex + 4, I, 1);
 			neighbours[lastIndex][2] = new Neighbour3DDesc(baseIndex + 5, I, 2);
-			neighbours[lastIndex][3] = new Neighbour3DDesc(baseIndex + 1, J, 3);
-			neighbours[lastIndex][4] = new Neighbour3DDesc(baseIndex + 2, I, 1);
+			neighbours[lastIndex][3] = new Neighbour3DDesc(baseIndex + 1, J, 1);
+			neighbours[lastIndex][4] = new Neighbour3DDesc(baseIndex + 2, I, 3);
 			neighbours[lastIndex][5] = new Neighbour3DDesc(baseIndex + 3, I, 0);
 			
 
 			//TODO: I'm tried and guessed the rotations:
-			neighbours[baseIndex + 1][2] = new Neighbour3DDesc(lastIndex, J, 1);
-			neighbours[baseIndex + 2][2] = new Neighbour3DDesc(lastIndex, I, 3);
+			neighbours[baseIndex + 1][2] = new Neighbour3DDesc(lastIndex, J, 3);
+			neighbours[baseIndex + 2][2] = new Neighbour3DDesc(lastIndex, I, 1);
 			neighbours[baseIndex + 3][2] = new Neighbour3DDesc(lastIndex, I, 0);
-			neighbours[baseIndex + 4][2] = new Neighbour3DDesc(lastIndex, I, 1);
+			neighbours[baseIndex + 4][2] = new Neighbour3DDesc(lastIndex, I, 3);
 			neighbours[baseIndex + 5][2] = new Neighbour3DDesc(lastIndex, I, 2);
-			neighbours[baseIndex + 6][2] = new Neighbour3DDesc(lastIndex, J, 3);
+			neighbours[baseIndex + 6][2] = new Neighbour3DDesc(lastIndex, J, 1);
 			
 
 			//Validation check:
@@ -345,8 +345,8 @@ public class NeighbourGraphCreator {
 	// post: neighToUse[][][]
 	// where:
 	// 1st index is the globalIndex
-	// 2nd one is which model dir points at block view dir 0
-	// 2nd one is which model dir points at block view dir 1
+	// 2nd one is the block index where model index 0 points.
+	// 3rd one is the block index where model index 1 points.
 	// Note that the 2nd and 3rd one will always be orthogonal.
 	// Output: which local block index to attach new cell to.
 	public static int[][][] setupNeighToUse() {
@@ -384,33 +384,33 @@ public class NeighbourGraphCreator {
 						//mainDirRelativeStandard and secondaryDirRelativeStandard must always be orthogonal by definition:
 						neighToUse[i][j][k] = -1;
 						
-					} else if(i == 0) {
-						neighToUse[i][j][k] = getIndexDir(dirsByGlobalIndex, mainDirRelativeStandard);
+					} else if(i == j) {
+						neighToUse[i][j][k] = 0;
 						
-						if(neighToUse[i][j][k] != j) {
+						if (! sameVector(dirsByGlobalIndex[i], mainDirRelativeStandard)) {
 							System.out.println("ERROR 2");
 							System.exit(1);
 						}
 						
-					} else if(i == 1) {
-						neighToUse[i][j][k] = getIndexDir(dirsByGlobalIndex, secondaryDirRelativeStandard);
-						
-						if(neighToUse[i][j][k] != k) {
+					} else if(i == k) {
+						neighToUse[i][j][k] = 1;
+
+						if (! sameVector(dirsByGlobalIndex[i], secondaryDirRelativeStandard)) {
 							System.out.println("ERROR 3");
 							System.exit(1);
 						}
 						
-					} else if(i == 2) {
-						neighToUse[i][j][k] = getIndexDir(dirsByGlobalIndex, crossProd);
+					} else if(sameVector(dirsByGlobalIndex[i], crossProd)) {
+						neighToUse[i][j][k] = 2;
 						
-					} else if(i == 3) {
-						neighToUse[i][j][k] = getIndexDir(dirsByGlobalIndex, multVectorMinus1(mainDirRelativeStandard));
+					} else if(sameVector(dirsByGlobalIndex[i], multVectorMinus1(mainDirRelativeStandard))) {
+						neighToUse[i][j][k] = 3;
 						
-					} else if(i == 4) {
-						neighToUse[i][j][k] = getIndexDir(dirsByGlobalIndex, multVectorMinus1(secondaryDirRelativeStandard));
+					} else if(sameVector(dirsByGlobalIndex[i], multVectorMinus1(secondaryDirRelativeStandard))) {
+						neighToUse[i][j][k] = 4;
 						
-					} else if(i == 5) {
-						neighToUse[i][j][k] =  getIndexDir(dirsByGlobalIndex, multVectorMinus1(crossProd));
+					} else if(sameVector(dirsByGlobalIndex[i], multVectorMinus1(crossProd))) {
+						neighToUse[i][j][k] =  5;
 						
 					} else {
 						System.out.println("( " +i + ", " + j + " , " + k + ")");
@@ -533,8 +533,8 @@ public class NeighbourGraphCreator {
 	// post: setupAxisToUse[][][]
 	// where:
 	// 1st index is the localIndex
-	// 2nd one is which model dir points at block view dir 0
-	// 2nd one is which model dir points at block view dir 1
+	// 2nd one is the block index where model index 0 points.
+	// 3rd one is the block index where model index 1 points.
 	// Note that the 2nd and 3rd one will always be orthogonal.
 	// Output: which global block index to attach the rotation index
 	
