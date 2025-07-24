@@ -43,11 +43,11 @@ public class NeighbourGraphCreator {
 			//In between connections attaching on k direction:
 			for(int i=0; i<a-1; i++) {
 
-				int baseIndex = 6*i;
+				int baseIndex = 6*i + 1;
 				
 				for(int j=0; j<6; j++) {
 					int startIndex = j + baseIndex;
-					int endIndex =   j + 6*(baseIndex + 1);
+					int endIndex =   j + baseIndex + 6;
 					
 					neighbours[startIndex][2] = new Neighbour3DDesc(endIndex, 0, 0);
 					neighbours[endIndex][5] =   new Neighbour3DDesc(startIndex, 0, 0);
@@ -257,6 +257,7 @@ public class NeighbourGraphCreator {
 			int tmpRotAmount = -1;
 			for(int j=0; j<NUM_NEIGHBOURS; j++) {
 				
+				System.out.println("i,j: " + i + ", " + j);
 				if(neighbours[listNeighbours[i][0]][j].cellIndex == listNeighbours[i][1]) {
 					tmpRotAxis = neighbours[listNeighbours[i][0]][j].rotAxis;
 					tmpRotAmount = neighbours[listNeighbours[i][0]][j].rotAmount;

@@ -184,6 +184,19 @@ public class CuboidToFoldOn4D {
 		return ! cellsUsed[newCellIndex];
 	}
 	
+
+	public int getAttachCellIndex(int origIndex, int blockIndex) {
+		int modelAttachmentIndex0To5 = neighbourIndexToUse[blockIndex][cellDir1[origIndex]][cellDir2[origIndex]];
+		int newCellIndex = neighbours[origIndex][modelAttachmentIndex0To5].cellIndex;
+		
+		if(!cellsUsed[origIndex]) {
+			System.out.println("Error: attaching cell when the cell it attaches from is not activated! (CouldattachCell)");
+			System.exit(1);
+		}
+		
+		return newCellIndex;
+	}
+	
 	public int getNeighbourIndex(int origIndex, int blockIndex) {
 		int nextIndex0To5 = neighbourIndexToUse[blockIndex][cellDir1[origIndex]][cellDir2[origIndex]];
 		int newCellIndex = neighbours[origIndex][nextIndex0To5].cellIndex;

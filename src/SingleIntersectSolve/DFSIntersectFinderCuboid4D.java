@@ -300,9 +300,9 @@ public class DFSIntersectFinderCuboid4D {
 				
 				boolean cantAddCellBecauseOfOtherPaperNeighbours = cantAddCellBecauseOfOtherPaperNeighbours(paperToDevelop, indexCuboidOnPaper,
 						//ALLOW_HOLES_cantAddCellBecauseOfOtherPaperNeighbours(paperToDevelop, indexCuboidonPaper,
-						GRID_SIZE/*, cuboid*/, numCellsUsedDepth,
+						GRID_SIZE, cuboidToBuild, numCellsUsedDepth,
 						CellIndexToOrderOfDev, minIndexToUse, minRotationToUse,
-						/*indexNewCell,*/ new_i, new_j, new_k, curOrderedIndexToUse
+						indexNewCell, new_i, new_j, new_k, curOrderedIndexToUse
 					);
 				
 				
@@ -358,9 +358,9 @@ public class DFSIntersectFinderCuboid4D {
 	
 	public static boolean cantAddCellBecauseOfOtherPaperNeighbours(Coord3D_Debug paperToDevelop[], Hashtable <Integer, Integer> indexCuboidOnPaper,
 			int GRID_SIZE,
-			/* CuboidToFoldOn cuboid, */int numCellsUsedDepth,
+			CuboidToFoldOn4D cuboid4D, int numCellsUsedDepth,
 			HashMap <Integer, Integer> CellIndexToOrderOfDev, int minIndexToUse, int minRotationToUse,
-			/*int indexNewCell, */int new_i, int new_j, int new_k, int curOrderedIndexToUse
+			int indexNewCell, int new_i, int new_j, int new_k, int curOrderedIndexToUse
 		) {	
 	boolean cantAddCellBecauseOfOtherPaperNeighbours = false;
 	
@@ -384,74 +384,31 @@ public class DFSIntersectFinderCuboid4D {
 			
 			int indexOtherCell = indexCuboidOnPaper.get(toHashNum(i1, j1, k1, GRID_SIZE));
 			//int rotationOtherCell = cuboid.getRotationPaperRelativeToMap(indexOtherCell);
-
-			if(CellIndexToOrderOfDev.containsKey(indexOtherCell)
+			
+			int neighbourIndexNeeded = (rotReq + NUM_NEIGHBOURS/2) % NUM_NEIGHBOURS;
+			
+			if(cuboid4D.getAttachCellIndex(indexOtherCell, neighbourIndexNeeded) != indexNewCell) {
+				//In this case, there's an implied hole...
+				// I want to see what happens when we allow this...
+				if(ALLOW_CUT_BETWEEN_FACES) {
+					continue;
+				} else {
+					cantAddCellBecauseOfOtherPaperNeighbours = true;
+					break;
+				}
+				
+			} else if(CellIndexToOrderOfDev.containsKey(indexOtherCell)
 					&& CellIndexToOrderOfDev.get(indexOtherCell) < curOrderedIndexToUse ) {
 				cantAddCellBecauseOfOtherPaperNeighbours = true;
 				break;
 			}
 			
-			//There's a 180 rotation because the neighbour is attaching to the new cell (so it's flipped!)
-			//int neighbourIndexNeeded = (rotReq + ONE_EIGHTY_ROTATION - rotationOtherCell+ NUM_ROTATIONS) % NUM_ROTATIONS;
-
-
-			/*if(cuboid.getNeighbours(indexOtherCell)[neighbourIndexNeeded].getIndex() != indexNewCell) {
-				cantAddCellBecauseOfOtherPaperNeighbours = true;
-				break;
-			}*/
 		}
 	}
 	return cantAddCellBecauseOfOtherPaperNeighbours;
 }
 	 
-	public static boolean ALLOW_HOLES_cantAddCellBecauseOfOtherPaperNeighbours(Coord3D_Debug paperToDevelop[], int indexCuboidonPaper[][][],
-			boolean paperUsed[][][], /*CuboidToFoldOn cuboid, */int numCellsUsedDepth,
-			HashMap <Integer, Integer> CellIndexToOrderOfDev, int minIndexToUse, int minRotationToUse,
-			int indexNewCell, int new_i, int new_j, int new_k, int curOrderedIndexToUse
-		) {
-	boolean cantAddCellBecauseOfOtherPaperNeighbours = false;
-
-	int neighboursBasedOnRotation[][] = {{new_i-1, new_j, new_k}, {new_i, new_j+1, new_k}, {new_i, new_j, new_k - 1},{new_i+1, new_j, new_k},{new_i, new_j - 1, new_k},{new_i, new_j, new_k + 1}};
-	
-	for(int rotReq=0; rotReq<neighboursBasedOnRotation.length; rotReq++) {
-		
-		int i1 = neighboursBasedOnRotation[rotReq][0];
-		int j1 = neighboursBasedOnRotation[rotReq][1];
-		int k1 = neighboursBasedOnRotation[rotReq][2];
-	
-		if(paperToDevelop[curOrderedIndexToUse].i == i1 && paperToDevelop[curOrderedIndexToUse].j == j1 && paperToDevelop[curOrderedIndexToUse].k == k1) {
-			continue;
-		}
-		
-		//System.out.println("Paper neighbour:" + i1 + ", " + j1 + ", " + k1);
-		
-		if(paperUsed[i1][j1][k1]) {
-			//System.out.println("Connected to another paper");
-			
-			int indexOtherCell = indexCuboidonPaper[i1][j1][k1];
-			//int rotationOtherCell = cuboid.getRotationPaperRelativeToMap(indexOtherCell);
-			
-			//There's a 180 rotation because the neighbour is attaching to the new cell (so it's flipped!)
-			//int neighbourIndexNeeded = (rotReq + ONE_EIGHTY_ROTATION - rotationOtherCell+ NUM_ROTATIONS) % NUM_ROTATIONS;
-
-			/*if(cuboid.getNeighbours(indexOtherCell)[neighbourIndexNeeded].getIndex() != indexNewCell) {
-				//In this case, there's an implied hole...
-				// I want to see what happens when we allow this...
-				continue;
-				
-			} else */if(CellIndexToOrderOfDev.containsKey(indexOtherCell)
-					&& CellIndexToOrderOfDev.get(indexOtherCell) < curOrderedIndexToUse ) {
-				cantAddCellBecauseOfOtherPaperNeighbours = true;
-				break;
-			}
-			
-		
-
-			
-		}
-	}
-	return cantAddCellBecauseOfOtherPaperNeighbours;
-}
+	public static final boolean ALLOW_CUT_BETWEEN_FACES = false;
 	
 	public static void main(String args[]) {
 		System.out.println("DFSIntersectFinderNoCuboid4d HASH:");
@@ -460,6 +417,9 @@ public class DFSIntersectFinderCuboid4D {
 		//solveCuboidIntersections(new CuboidToFoldOn(13, 1, 1), new CuboidToFoldOn(3, 3, 3));
 		
 		solveCuboidIntersections(new CuboidToFoldOn4D(1, 1, 1, 1));
+		
+		//solveCuboidIntersections(new CuboidToFoldOn4D(2, 1, 1, 1));
+		
 		System.out.println("Current UTC timestamp in milliseconds: " + System.currentTimeMillis());
 		
 	}
