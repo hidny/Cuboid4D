@@ -39,17 +39,17 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 	
 	@Override
 	public long getNumUniqueFound() {
-		System.out.println("Getting numUniqueFound");
 		return solutionsFound.size();
 	}
 	
 	public static int NUM_PERM_3 = 6;
 	public static int TWO_POW_3 = 8;
 
+	public static final boolean IS_VALID_SOLUTION = true;
 
 	public long resolveSolution(Coord3D paperToDevelop[]) {
 		
-		int borders[][] = getBorders(paperToDevelop);
+		int borders[][] = Model.Utils.getBorders(paperToDevelop, paperToDevelop.length);
 		
 		BigInteger ret = getScoreForPerm(paperToDevelop, borders, 0, 0);
 		
@@ -67,72 +67,14 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 			
 			solutionsFound.add(ret);
 			lastSolution = ret;
-			printSolution(paperToDevelop);
+			
+			if(solutionsFound.size() % 100000 == 0) {
+				Model.Utils.printSolution(paperToDevelop, this.getNumUniqueFound(), IS_VALID_SOLUTION, paperToDevelop.length);
+			}
 			
 			return 1;
 		} else {
 			return 0;
-		}
-		
-	}
-	
-	public static final boolean DEBUG_SHOW_ROTS = true;
-	
-	public static void printSolution(Coord3D paperToDevelop[]) {
-		int borders[][] = getBorders(paperToDevelop);
-		
-
-		System.out.println("Solution " + solutionsFound.size() + ":");
-		//(k is the first loop because that matches how I drew it in the notebook)
-		for(int k=borders[2][0]; k<=borders[2][1]; k++) {
-			
-			for(int i=borders[0][0]; i<=borders[0][1]; i++) {
-				
-				for(int j=borders[1][0]; j<=borders[1][1]; j++) {
-					
-					boolean found = false;
-					int indexFound = -1;
-					for(int m=0; m<paperToDevelop.length; m++) {
-						if(paperToDevelop[m].i == i && paperToDevelop[m].j == j && paperToDevelop[m].k == k) {
-							found = true;
-							indexFound = m;
-							break;
-						}
-					}
-					
-					if(DEBUG_SHOW_ROTS) {
-						if(found) {
-							if(paperToDevelop[indexFound] instanceof Coord3D_Debug) {
-	
-								System.out.print(((Coord3D_Debug)paperToDevelop[indexFound]).debugIndex + "," + ((Coord3D_Debug)paperToDevelop[indexFound]).debugDir1 + "," + ((Coord3D_Debug)paperToDevelop[indexFound]).debugDir2 + "   ");
-							} else {
-								System.out.print("########");
-							}
-						} else {
-							System.out.print("_____   ");
-							
-						}
-					} else {
-						if(found) {
-							if(paperToDevelop[indexFound] instanceof Coord3D_Debug) {
-	
-								System.out.print(((Coord3D_Debug)paperToDevelop[indexFound]).debugIndex);
-							} else {
-								System.out.print("#");
-							}
-						} else {
-							System.out.print("_");
-							
-						}
-					}
-				}
-
-				System.out.println();
-			}
-			
-			System.out.println();
-			System.out.println();
-			System.out.println();
 		}
 		
 	}
@@ -248,29 +190,4 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 	}
 	
 	
-	private static int[][] getBorders(Coord3D paperToDevelop[]) {
-		int borders[][] = new int[3][2];
-		
-		borders[0][0] = paperToDevelop[0].i;
-		borders[1][0] = paperToDevelop[0].j;
-		borders[2][0] = paperToDevelop[0].k;
-
-		borders[0][1] = paperToDevelop[0].i;
-		borders[1][1] = paperToDevelop[0].j;
-		borders[2][1] = paperToDevelop[0].k;
-		
-		for(int i=0; i<paperToDevelop.length; i++) {
-			borders[0][0] = Math.min(borders[0][0], paperToDevelop[i].i);
-			borders[1][0] = Math.min(borders[1][0], paperToDevelop[i].j);
-			borders[2][0] = Math.min(borders[2][0], paperToDevelop[i].k);
-
-			borders[0][1] = Math.max(borders[0][1], paperToDevelop[i].i);
-			borders[1][1] = Math.max(borders[1][1], paperToDevelop[i].j);
-			borders[2][1] = Math.max(borders[2][1], paperToDevelop[i].k);
-			
-			
-		}
-		
-		return borders;
-	}
 }

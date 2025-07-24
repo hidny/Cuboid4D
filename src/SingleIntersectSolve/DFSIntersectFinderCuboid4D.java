@@ -179,6 +179,8 @@ public class DFSIntersectFinderCuboid4D {
 	public static long numIterations = 0;
 	
 	public static long origFixedNumberDebug = 0;
+	
+	public static long debugNumSolutionsPrevPhase = 0;
 
 	public static long doDepthFirstSearch(Coord3D_Debug paperToDevelop[], Hashtable <Integer, Integer> indexCuboidOnPaper, int GRID_SIZE,/* CuboidToFoldOn cuboid, */int numCellsUsedDepth,
 			SolutionResolverInterface solutionResolver, /*CuboidToFoldOn cuboidToBringAlongStartRot, int indexCuboidOnPaper2ndCuboid[][][],*/
@@ -187,6 +189,7 @@ public class DFSIntersectFinderCuboid4D {
 			CuboidToFoldOn4D cuboidToBuild ) {
 
 		numIterations++;
+		boolean debugPrintedNewPhaseInCurFunction = false;
 		
 		if(numCellsUsedDepth == cuboidToBuild.getNumCellsToFill()) {
 			
@@ -308,6 +311,20 @@ public class DFSIntersectFinderCuboid4D {
 				
 				if( ! cantAddCellBecauseOfOtherPaperNeighbours) {
 					
+					//DEBUG NEW PHASE:
+					if(debugPrintedNewPhaseInCurFunction == false && minIndexToUse == 0 && curOrderedIndexToUse > 0) {
+						debugPrintedNewPhaseInCurFunction = true;
+						System.out.println("DEBUG NEW PHASE");
+						System.out.println("Num new solutions in previous phase: " + (solutionResolver.getNumUniqueFound() - debugNumSolutionsPrevPhase));
+						debugNumSolutionsPrevPhase = solutionResolver.getNumUniqueFound();
+						
+						Model.Utils.printSolution(paperToDevelop, solutionResolver.getNumUniqueFound(), false, numCellsUsedDepth);
+						System.out.println("END DEBUG NEW PHASE");
+						System.out.println();
+						
+					}
+					//END DEBUG  NEW PHASE:
+					
 					//Setup for adding new cell:
 					//cuboid.setCell(indexNewCell, rotationNeighbourPaperRelativeToMap);
 					//cuboidToBringAlongStartRot.setCell(indexNewCell2, rotationNeighbourPaperRelativeToMap2);
@@ -327,6 +344,7 @@ public class DFSIntersectFinderCuboid4D {
 				
 					CellIndexToOrderOfDev.put(indexNewCell, numCellsUsedDepth);
 					numCellsUsedDepth += 1;
+					
 					
 					retDuplicateSolutions += doDepthFirstSearch(paperToDevelop, indexCuboidOnPaper, GRID_SIZE/*, cuboid */,numCellsUsedDepth, solutionResolver/*, cuboidToBringAlongStartRot, indexCuboidOnPaper2ndCuboid*/, debugNope, debugIterations, CellIndexToOrderOfDev, curOrderedIndexToUse, dirNewCellAdd, cuboidToBuild);
 
@@ -408,7 +426,7 @@ public class DFSIntersectFinderCuboid4D {
 	return cantAddCellBecauseOfOtherPaperNeighbours;
 }
 	 
-	public static final boolean ALLOW_CUT_BETWEEN_FACES = false;
+	public static final boolean ALLOW_CUT_BETWEEN_FACES = true;
 	
 	public static void main(String args[]) {
 		System.out.println("DFSIntersectFinderNoCuboid4d HASH:");
@@ -416,11 +434,19 @@ public class DFSIntersectFinderCuboid4D {
 		
 		//solveCuboidIntersections(new CuboidToFoldOn(13, 1, 1), new CuboidToFoldOn(3, 3, 3));
 		
-		solveCuboidIntersections(new CuboidToFoldOn4D(1, 1, 1, 1));
+		solveCuboidIntersections(new CuboidToFoldOn4D(2, 1, 1, 1));
 		
 		//solveCuboidIntersections(new CuboidToFoldOn4D(2, 1, 1, 1));
 		
 		System.out.println("Current UTC timestamp in milliseconds: " + System.currentTimeMillis());
+		
+		System.out.println("END OF PROGRAM");
+		
+		if(ALLOW_CUT_BETWEEN_FACES) {
+			System.out.println("Cuts between faces was enabled.");
+		} else {
+			System.out.println("No Cuts between faces!");
+		}
 		
 	}
 }
