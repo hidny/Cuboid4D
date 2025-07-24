@@ -426,7 +426,7 @@ public class DFSIntersectFinderCuboid4D {
 	return cantAddCellBecauseOfOtherPaperNeighbours;
 }
 	 
-	public static final boolean ALLOW_CUT_BETWEEN_FACES = true;
+	public static final boolean ALLOW_CUT_BETWEEN_FACES = false;
 	
 	public static void main(String args[]) {
 		System.out.println("DFSIntersectFinderNoCuboid4d HASH:");
