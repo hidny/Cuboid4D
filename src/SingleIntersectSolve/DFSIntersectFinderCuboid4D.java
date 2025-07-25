@@ -153,8 +153,6 @@ public class DFSIntersectFinderCuboid4D {
 			System.out.println("1st cuboid stats: " + startIndex + " and a rotation index of (" + startBlockDir1 +", " + startBlockDir2 + ").");
 			System.out.println("Current UTC timestamp in milliseconds: " + System.currentTimeMillis());
 			
-			System.out.println("EXITING ON PURPOSE");
-			System.exit(1);
 		//}
 		
 		//TODO: end todo 2nd one
@@ -382,8 +380,17 @@ public class DFSIntersectFinderCuboid4D {
 		) {	
 	boolean cantAddCellBecauseOfOtherPaperNeighbours = false;
 	
-	int neighboursBasedOnRotation[][] = {{new_i-1, new_j, new_k}, {new_i, new_j+1, new_k}, {new_i, new_j, new_k - 1},{new_i+1, new_j, new_k},{new_i, new_j - 1, new_k},{new_i, new_j, new_k + 1}};
-
+	//Note that these variable have to match up!
+	//public static final int nugdeBasedOnRotation[][] = {{1, 0, 0, -1, 0, 0}, {0, 1, 0 , 0, -1, 0}, {0, 0, 1 , 0, 0, -1}};
+	int neighboursBasedOnRotation[][] = {
+			{new_i + 1, new_j,     new_k},
+			{new_i,     new_j + 1, new_k},
+			{new_i,     new_j,     new_k + 1},
+			{new_i - 1, new_j,     new_k},
+			{new_i,     new_j - 1, new_k},
+			{new_i,     new_j,     new_k - 1}
+	};
+	
 	
 	for(int rotReq=0; rotReq<neighboursBasedOnRotation.length; rotReq++) {
 		
@@ -406,8 +413,7 @@ public class DFSIntersectFinderCuboid4D {
 			int neighbourIndexNeeded = (rotReq + NUM_NEIGHBOURS/2) % NUM_NEIGHBOURS;
 			
 			if(cuboid4D.getAttachCellIndex(indexOtherCell, neighbourIndexNeeded) != indexNewCell) {
-				//In this case, there's an implied hole...
-				// I want to see what happens when we allow this...
+
 				if(ALLOW_CUT_BETWEEN_FACES) {
 					continue;
 				} else {
@@ -426,7 +432,7 @@ public class DFSIntersectFinderCuboid4D {
 	return cantAddCellBecauseOfOtherPaperNeighbours;
 }
 	 
-	public static final boolean ALLOW_CUT_BETWEEN_FACES = false;
+	public static final boolean ALLOW_CUT_BETWEEN_FACES = true;
 	
 	public static void main(String args[]) {
 		System.out.println("DFSIntersectFinderNoCuboid4d HASH:");
