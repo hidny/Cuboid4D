@@ -24,6 +24,7 @@ import Model.CuboidToFoldOn4D;
 //import GraphUtils.PivotCellDescription;
 //import Model.CuboidToFoldOn;
 import Model.Utils;
+import SymmetryResolver.SymmetryResolverSimple;
 import solutionResolver.SolutionResolverInterface;
 import solutionResolver.SolutionResolverMemBasic;
 //import Model.Utils;
@@ -107,7 +108,7 @@ public class DFSIntersectFinderCuboid4D {
 		
 		paperToDevelop[numCellsUsedDepth] = new Coord3D_Debug(START_I, START_J, START_K, startIndex, startBlockDir1, startBlockDir2);
 		
-		indexCuboidOnPaper.put(toHashNum(START_I, START_J, START_K, GRID_SIZE), startIndex);
+		indexCuboidOnPaper.put(Utils.toHashNum(START_I, START_J, START_K, GRID_SIZE), startIndex);
 		numCellsUsedDepth += 1;
 		
 		
@@ -163,15 +164,6 @@ public class DFSIntersectFinderCuboid4D {
 		//System.out.println("Number of iterations: " + numIterations);
 	}
 
-	public static int toHashNum(int i, int j, int k, int GRID_SIZE) {
-		
-		return i * GRID_SIZE * GRID_SIZE + j * GRID_SIZE + k;
-	}
-	
-	public static int toHashNum(Coord3D_Debug coord, int GRID_SIZE) {
-		
-		return coord.i * GRID_SIZE * GRID_SIZE + coord.j * GRID_SIZE + coord.k;
-	}
 	
 	public static final int nugdeBasedOnRotation[][] = {{1, 0, 0, -1, 0, 0}, {0, 1, 0 , 0, -1, 0}, {0, 0, 1 , 0, 0, -1}};
 	public static long numIterations = 0;
@@ -206,7 +198,7 @@ public class DFSIntersectFinderCuboid4D {
 			//System.out.println("Solutions: " + solutionResolver.getNumUniqueFound());
 			System.out.println();
 			
-			System.out.println("Last cell inserted: " + indexCuboidOnPaper.get(toHashNum(paperToDevelop[numCellsUsedDepth - 1], GRID_SIZE)));
+			System.out.println("Last cell inserted: " + indexCuboidOnPaper.get(Utils.toHashNum(paperToDevelop[numCellsUsedDepth - 1], GRID_SIZE)));
 			
 			if(numCellsUsedDepth - 1 == 1) {
 				System.out.println("DEBUG");
@@ -223,7 +215,7 @@ public class DFSIntersectFinderCuboid4D {
 		for(int curOrderedIndexToUse=minIndexToUse; curOrderedIndexToUse<numCellsUsedDepth && curOrderedIndexToUse<paperToDevelop.length && paperToDevelop[curOrderedIndexToUse] != null; curOrderedIndexToUse++) {
 
 			
-			int indexToUse =indexCuboidOnPaper.get(toHashNum(paperToDevelop[curOrderedIndexToUse], GRID_SIZE));
+			int indexToUse =indexCuboidOnPaper.get(Utils.toHashNum(paperToDevelop[curOrderedIndexToUse], GRID_SIZE));
 
 
 			 /*if(SymmetryResolver.skipSearchBecauseOfASymmetryArgDontCareAboutRotation
@@ -283,7 +275,7 @@ public class DFSIntersectFinderCuboid4D {
 
 				//int indexNewCell = neighbours[neighbourArrayIndex].getIndex();
 				
-				if(indexCuboidOnPaper.containsKey(toHashNum(new_i, new_j, new_k, GRID_SIZE))) {
+				if(indexCuboidOnPaper.containsKey(Utils.toHashNum(new_i, new_j, new_k, GRID_SIZE))) {
 					//Cell we are considering to add is already there...
 					continue;
 				}
@@ -323,11 +315,23 @@ public class DFSIntersectFinderCuboid4D {
 					}
 					//END DEBUG  NEW PHASE:
 					
+					if( cuboidToBuild.getDimensions()[1] == 1
+							&& SymmetryResolverSimple.skipSearchNx1x1BecauseTopNeighTooBig(
+						paperToDevelop,
+						indexCuboidOnPaper,
+						indexToUse,
+						paperToDevelop[curOrderedIndexToUse],
+						cuboidToBuild,
+						GRID_SIZE))	{
+
+						continue;
+					}
+					
 					//Setup for adding new cell:
 					//cuboid.setCell(indexNewCell, rotationNeighbourPaperRelativeToMap);
 					//cuboidToBringAlongStartRot.setCell(indexNewCell2, rotationNeighbourPaperRelativeToMap2);
 					
-					indexCuboidOnPaper.put(toHashNum(new_i, new_j, new_k, GRID_SIZE), indexNewCell);
+					indexCuboidOnPaper.put(Utils.toHashNum(new_i, new_j, new_k, GRID_SIZE), indexNewCell);
 					
 					cuboidToBuild.attachCell(indexToUse, dirNewCellAdd);
 					
@@ -351,7 +355,7 @@ public class DFSIntersectFinderCuboid4D {
 
 					CellIndexToOrderOfDev.remove(indexNewCell);
 					
-					indexCuboidOnPaper.remove(toHashNum(new_i, new_j, new_k, GRID_SIZE));
+					indexCuboidOnPaper.remove(Utils.toHashNum(new_i, new_j, new_k, GRID_SIZE));
 					paperToDevelop[numCellsUsedDepth] = null;
 
 					//indexCuboidOnPaper2ndCuboid[new_i][new_j][new_k] = -1;
@@ -404,10 +408,10 @@ public class DFSIntersectFinderCuboid4D {
 		
 		//System.out.println("Paper neighbour:" + i1 + ", " + j1);
 		
-		if(indexCuboidOnPaper.containsKey(toHashNum(i1, j1, k1, GRID_SIZE))) {
+		if(indexCuboidOnPaper.containsKey(Utils.toHashNum(i1, j1, k1, GRID_SIZE))) {
 			//System.out.println("Connected to another paper");
 			
-			int indexOtherCell = indexCuboidOnPaper.get(toHashNum(i1, j1, k1, GRID_SIZE));
+			int indexOtherCell = indexCuboidOnPaper.get(Utils.toHashNum(i1, j1, k1, GRID_SIZE));
 			//int rotationOtherCell = cuboid.getRotationPaperRelativeToMap(indexOtherCell);
 			
 			int neighbourIndexNeeded = (rotReq + NUM_NEIGHBOURS/2) % NUM_NEIGHBOURS;
@@ -432,7 +436,7 @@ public class DFSIntersectFinderCuboid4D {
 	return cantAddCellBecauseOfOtherPaperNeighbours;
 }
 	 
-	public static final boolean ALLOW_CUT_BETWEEN_FACES = true;
+	public static final boolean ALLOW_CUT_BETWEEN_FACES = false;
 	
 	public static void main(String args[]) {
 		System.out.println("DFSIntersectFinderNoCuboid4d HASH:");
@@ -440,9 +444,9 @@ public class DFSIntersectFinderCuboid4D {
 		
 		//solveCuboidIntersections(new CuboidToFoldOn(13, 1, 1), new CuboidToFoldOn(3, 3, 3));
 		
-		solveCuboidIntersections(new CuboidToFoldOn4D(2, 1, 1, 1));
+		//solveCuboidIntersections(new CuboidToFoldOn4D(1, 1, 1, 1));
 		
-		//solveCuboidIntersections(new CuboidToFoldOn4D(2, 1, 1, 1));
+		solveCuboidIntersections(new CuboidToFoldOn4D(2, 1, 1, 1));
 		
 		System.out.println("Current UTC timestamp in milliseconds: " + System.currentTimeMillis());
 		

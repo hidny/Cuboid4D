@@ -48,6 +48,17 @@ public class Utils {
 		return borders;
 	}
 	
+
+	public static int toHashNum(int i, int j, int k, int GRID_SIZE) {
+		
+		return i * GRID_SIZE * GRID_SIZE + j * GRID_SIZE + k;
+	}
+	
+	public static int toHashNum(Coord3D_Debug coord, int GRID_SIZE) {
+		
+		return coord.i * GRID_SIZE * GRID_SIZE + coord.j * GRID_SIZE + coord.k;
+	}
+	
 	public static final boolean DEBUG_SHOW_ROTS = true;
 	
 	public static void printSolution(Coord3D paperToDevelop[], long numSolutionsSoFar, boolean isCompleteSolution, int paperToDevelopLength) {
