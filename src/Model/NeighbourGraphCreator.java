@@ -147,6 +147,8 @@ public class NeighbourGraphCreator {
 		} else if(b == 2 && c == 1 && d == 1) {
 			
 
+			// Wrong: 3,2,0   13,1,0   11,5,0   1,1,0
+			
 			//Neighbours to index 0:
 			neighbours[0][0] = new Neighbour3DDesc(10, J, 1);
 			neighbours[0][1] = new Neighbour3DDesc(1, 0, 0);
@@ -180,13 +182,13 @@ public class NeighbourGraphCreator {
 
 			neighbours[0][1] = new Neighbour3DDesc(1, 0, 0);
 			
-			neighbours[3][5] = new Neighbour3DDesc(1, J, 3);
+			neighbours[3][5] = new Neighbour3DDesc(1, J, 1);
 			
 			
 			neighbours[6][5] = new Neighbour3DDesc(1, 0, 0);
 			neighbours[7][5] = new Neighbour3DDesc(1, I, 1);
 			neighbours[8][5] = new Neighbour3DDesc(1, I, 2);
-			neighbours[11][5] = new Neighbour3DDesc(1, J, 1);
+			neighbours[11][5] = new Neighbour3DDesc(1, J, 3);
 
 			//In between connections attaching on k direction:
 			for(int i=0; i<a-1; i++) {
@@ -319,7 +321,7 @@ public class NeighbourGraphCreator {
 					
 					validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{0 + shouldAdd1, j}, {baseIndex + j, secondLastIndex + shouldAdd1}});
 				
-				} else if(j == 2 || j == 4){
+				} else if(j == 2 || j == 4 || j == 3){
 					int k = -1;
 					int firstTopIndexToUse = -1;
 					int secondTopIndexToUse = -1;
@@ -346,7 +348,7 @@ public class NeighbourGraphCreator {
 						
 					} else if( j == 3) {
 						k = 11;
-						validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{0, j}, {0, 2}});
+						validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{1, 3}, {0, 2}});
 
 						firstTopIndexToUse = 1;
 						secondTopIndexToUse = 1;
@@ -365,7 +367,7 @@ public class NeighbourGraphCreator {
 			System.out.println("Check around:");
 			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{3, 7}, {7, 11}, {10, 4}, {4, 2}});
 			
-			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{2, 5}, {5, 10}, {3, 6}, {6, 11}});
+			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{2, 5}, {5, 10}, {3, 6}, {6, 11}, {4, 5}});
 			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{4, 5}, {5, 6}, {7, 8}, {8, 9}, {9, 4}, {2, 5}, {3, 6}, {5, 10}, {6, 11}});
 			
 			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{2, 9}, {9, 10}, {3, 8}, {8, 11}});
