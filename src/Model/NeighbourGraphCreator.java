@@ -172,7 +172,7 @@ public class NeighbourGraphCreator {
 			neighbours[1][2] = new Neighbour3DDesc(6, I, 0);
 			neighbours[1][3] = new Neighbour3DDesc(3, J, 3);
 			
-			neighbours[1][4] = new Neighbour3DDesc(5, 0, 0);
+			neighbours[1][4] = new Neighbour3DDesc(0, 0, 0);
 			
 			neighbours[1][5] = new Neighbour3DDesc(8, I, 2);
 
@@ -304,7 +304,8 @@ public class NeighbourGraphCreator {
 			
 			
 			//TODO: redo validation check.
-			
+
+			validateBidirectional(neighbours);
 
 			//Validation check:
 			for(int j=2; j<=11; j++) {
@@ -377,8 +378,39 @@ public class NeighbourGraphCreator {
 			System.out.println("Not ready for different dimensions yet");
 			System.exit(1);
 		}
+
+		validateBidirectional(neighbours);
 		
 		return neighbours;
+	}
+	
+	public static void validateBidirectional(Neighbour3DDesc neighbours[][]) {
+		
+		for(int i=0; i<neighbours.length; i++) {
+			for(int j=0; j<neighbours[0].length; j++) {
+				int indexNeigh = neighbours[i][j].cellIndex;
+				
+				if(indexNeigh == i) {
+					System.out.println("ERROR in validateBidirectional: cell index pointing to itself.");
+					System.exit(1);
+				}
+				
+				boolean isBidirectional = false;
+				for(int k=0; k<neighbours[0].length; k++) {
+				
+					if(neighbours[indexNeigh][k].cellIndex == i) {
+						isBidirectional = true;
+					}
+				}
+				
+
+				if(! isBidirectional) {
+					System.out.println("ERROR in validateBidirectional: cell index " + i + " points to index " + indexNeigh + ", but that neighbour does not point back to cell index "+ i);
+					System.exit(1);
+				}
+				
+			}
+		}
 	}
 	
 	//The idea of this is to reduce the potential for magic number entry error in initNeighbourhood.
