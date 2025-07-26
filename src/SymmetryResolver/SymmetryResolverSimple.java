@@ -17,9 +17,10 @@ public class SymmetryResolverSimple {
 			int GRID_SIZE) {
 		
 		if(cellIndexToUse == cuboidToBuild.getNumCellsToFill() - 1
+			&& indexCuboidOnPaper.get(Utils.toHashNum(paperToDevelop[0], GRID_SIZE)) == 0
 			&& getNumUsedNeighbourCellonPaper(indexCuboidOnPaper, paperToDevelop[0], GRID_SIZE)
 					<= getNumUsedNeighbourCellonPaper(indexCuboidOnPaper, indexToUseLocation, GRID_SIZE)) {
-				
+			
 			return true;
 		}
 		

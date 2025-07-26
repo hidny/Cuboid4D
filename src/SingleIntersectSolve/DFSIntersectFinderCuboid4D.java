@@ -58,6 +58,11 @@ public class DFSIntersectFinderCuboid4D {
 		
 		
 		solveCuboidIntersections(cuboidToBuild, solutionResolver, 0, 0, 1);
+		
+		//Tested just for fun:
+		// I got 3799547, so it works:
+		//solveCuboidIntersections(cuboidToBuild, solutionResolver, 1, 3, 4);
+		
 		/*System.out.println("Counting the number of solutions starting from anywhere:");
 		for(int i=0; i<cuboidToBuild.getNumCellsToFill(); i++) {
 			for(int j=0; j<NUM_NEIGHBOURS; j++) {
