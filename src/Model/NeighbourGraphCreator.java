@@ -270,7 +270,7 @@ public class NeighbourGraphCreator {
 			
 			int baseIndex = lastIndex - 13;
 			neighbours[secondLastIndex][0] = new Neighbour3DDesc(baseIndex + 10, J, 3);
-			neighbours[secondLastIndex][1] = new Neighbour3DDesc(baseIndex + 13, I, 1);
+			neighbours[secondLastIndex][1] = new Neighbour3DDesc(baseIndex + 13, 0, 0);
 			neighbours[secondLastIndex][2] = new Neighbour3DDesc(baseIndex + 9, I, 2);
 			neighbours[secondLastIndex][3] = new Neighbour3DDesc(baseIndex + 2, J, 1);
 			neighbours[secondLastIndex][4] = new Neighbour3DDesc(baseIndex + 4, I, 3);
@@ -280,7 +280,7 @@ public class NeighbourGraphCreator {
 			neighbours[lastIndex][1] = new Neighbour3DDesc(baseIndex + 7, I, 1);
 			neighbours[lastIndex][2] = new Neighbour3DDesc(baseIndex + 8, I, 2);
 			neighbours[lastIndex][3] = new Neighbour3DDesc(baseIndex + 3, J, 1);
-			neighbours[lastIndex][4] = new Neighbour3DDesc(baseIndex + 12, I, 3);
+			neighbours[lastIndex][4] = new Neighbour3DDesc(baseIndex + 12, 0, 0);
 			neighbours[lastIndex][5] = new Neighbour3DDesc(baseIndex + 6, 0, 0);
 			
 
@@ -366,9 +366,13 @@ public class NeighbourGraphCreator {
 			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{3, 7}, {7, 11}, {10, 4}, {4, 2}});
 			
 			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{2, 5}, {5, 10}, {3, 6}, {6, 11}});
-			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{4, 5}, {5, 6}, {7, 8}, {8, 9}, {9, 4}});
+			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{4, 5}, {5, 6}, {7, 8}, {8, 9}, {9, 4}, {2, 5}, {3, 6}, {5, 10}, {6, 11}});
 			
 			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{2, 9}, {9, 10}, {3, 8}, {8, 11}});
+			
+
+			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{0, 1}, {secondLastIndex, lastIndex}, {0, 5}, {1, 6}, {secondLastIndex - 7, secondLastIndex}, {lastIndex - 7, lastIndex}});
+
 			
 			System.out.println("END OF VALIDATION CHECKS");
 			
