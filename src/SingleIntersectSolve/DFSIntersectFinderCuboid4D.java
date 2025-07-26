@@ -451,7 +451,9 @@ public class DFSIntersectFinderCuboid4D {
 		
 		//solveCuboidIntersections(new CuboidToFoldOn4D(1, 1, 1, 1));
 		
-		solveCuboidIntersections(new CuboidToFoldOn4D(2, 1, 1, 1));
+		// solveCuboidIntersections(new CuboidToFoldOn4D(2, 1, 1, 1));
+		
+		solveCuboidIntersections(new CuboidToFoldOn4D(1, 2, 1, 1));
 		
 		System.out.println("Current UTC timestamp in milliseconds: " + System.currentTimeMillis());
 		

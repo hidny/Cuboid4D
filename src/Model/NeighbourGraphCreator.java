@@ -8,8 +8,7 @@ public class NeighbourGraphCreator {
 
 	//Goal:
 	// Give CuboidToFoldOn a graph/state machine to work with, so it can easily keep track of state.
-	// This goal seems to already be acomplished and what's returned looks good.
-	// TODO: I still need to test it against a 1x1x1 cube though...
+	// This goal seems to already be accomplished and what's returned looks good.
 	
 	public static int NUM_NEIGHBOURS = 6;
 	public static int NUM_DIMS = 6;
@@ -147,7 +146,178 @@ public class NeighbourGraphCreator {
 			
 		} else if(b == 2 && c == 1 && d == 1) {
 			
-			//TODO
+
+			//Neighbours to index 0:
+			neighbours[0][0] = new Neighbour3DDesc(10, J, 1);
+			neighbours[0][1] = new Neighbour3DDesc(1, 0, 0);
+			neighbours[0][2] = new Neighbour3DDesc(5, 0, 0);
+			neighbours[0][3] = new Neighbour3DDesc(2, J, 3);
+			neighbours[0][4] = new Neighbour3DDesc(4, I, 1);
+			neighbours[0][5] = new Neighbour3DDesc(9, I, 2);
+
+
+			//Going back to 0:
+			neighbours[1][4] = new Neighbour3DDesc(0, 0, 0);
+			
+			neighbours[2][5] = new Neighbour3DDesc(0, J, 1);
+			neighbours[4][5] = new Neighbour3DDesc(0, I, 3);
+			neighbours[5][5] = new Neighbour3DDesc(0, I, 0);
+			neighbours[9][5] = new Neighbour3DDesc(0, I, 2);
+			neighbours[10][5] = new Neighbour3DDesc(0, J, 3);
+			
+
+			//Neighbours to index 1:
+			neighbours[1][0] = new Neighbour3DDesc(11, J, 1);
+			neighbours[1][1] = new Neighbour3DDesc(7, I, 3);
+			neighbours[1][2] = new Neighbour3DDesc(6, I, 0);
+			neighbours[1][3] = new Neighbour3DDesc(3, J, 3);
+			
+			neighbours[1][4] = new Neighbour3DDesc(5, 0, 0);
+			
+			neighbours[1][5] = new Neighbour3DDesc(8, I, 2);
+
+			//Going back to 1:
+
+			neighbours[0][1] = new Neighbour3DDesc(1, 0, 0);
+			
+			neighbours[3][5] = new Neighbour3DDesc(1, J, 3);
+			
+			
+			neighbours[6][5] = new Neighbour3DDesc(1, 0, 0);
+			neighbours[7][5] = new Neighbour3DDesc(1, I, 3);
+			neighbours[8][5] = new Neighbour3DDesc(1, I, 2);
+			neighbours[11][5] = new Neighbour3DDesc(1, J, 1);
+
+			//In between connections attaching on k direction:
+			for(int i=0; i<a-1; i++) {
+
+				int baseIndex = 10*i + 2;
+				
+				for(int j=0; j<10; j++) {
+					int startIndex = j + baseIndex;
+					int endIndex =   j + baseIndex + 10;
+					
+					neighbours[startIndex][2] = new Neighbour3DDesc(endIndex, 0, 0);
+					neighbours[endIndex][5] =   new Neighbour3DDesc(startIndex, 0, 0);
+				}
+				
+			}
+			
+			
+			//In between connections attaching on i and j directions: (rotate with k axis)
+			for(int i=0; i<a; i++) {
+				
+				int baseIndex = 10*i;
+				neighbours[baseIndex + 2][3] = new Neighbour3DDesc(baseIndex + 9, K, 2);
+				neighbours[baseIndex + 2][1] = new Neighbour3DDesc(baseIndex + 3, K, 0);
+				neighbours[baseIndex + 2][0] = new Neighbour3DDesc(baseIndex + 5, K, 0);
+				neighbours[baseIndex + 2][4] = new Neighbour3DDesc(baseIndex + 4, K, 3);
+				
+				neighbours[baseIndex + 3][3] = new Neighbour3DDesc(baseIndex + 8, K, 2);
+				neighbours[baseIndex + 3][1] = new Neighbour3DDesc(baseIndex + 7, K, 1);
+				neighbours[baseIndex + 3][0] = new Neighbour3DDesc(baseIndex + 6, K, 0);
+				neighbours[baseIndex + 3][4] = new Neighbour3DDesc(baseIndex + 2, K, 0);
+
+
+				neighbours[baseIndex + 4][3] = new Neighbour3DDesc(baseIndex + 2, K, 1);
+				neighbours[baseIndex + 4][1] = new Neighbour3DDesc(baseIndex + 5, K, 0);
+				neighbours[baseIndex + 4][0] = new Neighbour3DDesc(baseIndex + 10, K, 3);
+				neighbours[baseIndex + 4][4] = new Neighbour3DDesc(baseIndex + 9, K, 0);
+				
+
+				neighbours[baseIndex + 5][3] = new Neighbour3DDesc(baseIndex + 2, K, 0);
+				neighbours[baseIndex + 5][1] = new Neighbour3DDesc(baseIndex + 6, K, 0);
+				neighbours[baseIndex + 5][0] = new Neighbour3DDesc(baseIndex + 10, K, 0);
+				neighbours[baseIndex + 5][4] = new Neighbour3DDesc(baseIndex + 4, K, 0);
+				
+
+				neighbours[baseIndex + 6][3] = new Neighbour3DDesc(baseIndex + 3, K, 0);
+				neighbours[baseIndex + 6][1] = new Neighbour3DDesc(baseIndex + 7, K, 0);
+				neighbours[baseIndex + 6][0] = new Neighbour3DDesc(baseIndex + 11, K, 0);
+				neighbours[baseIndex + 6][4] = new Neighbour3DDesc(baseIndex + 5, K, 0);
+
+
+				neighbours[baseIndex + 7][3] = new Neighbour3DDesc(baseIndex + 3,  K, 3);
+				neighbours[baseIndex + 7][1] = new Neighbour3DDesc(baseIndex + 8,  K, 0);
+				neighbours[baseIndex + 7][0] = new Neighbour3DDesc(baseIndex + 11, K, 1);
+				neighbours[baseIndex + 7][4] = new Neighbour3DDesc(baseIndex + 6,  K, 0);
+
+				neighbours[baseIndex + 8][3] = new Neighbour3DDesc(baseIndex + 3,  K, 2);
+				neighbours[baseIndex + 8][1] = new Neighbour3DDesc(baseIndex + 7,  K, 0);
+				neighbours[baseIndex + 8][0] = new Neighbour3DDesc(baseIndex + 11, K, 2);
+				neighbours[baseIndex + 8][4] = new Neighbour3DDesc(baseIndex + 9,  K, 0);
+
+				neighbours[baseIndex + 9][3] = new Neighbour3DDesc(baseIndex + 2,  K, 2);
+				neighbours[baseIndex + 9][1] = new Neighbour3DDesc(baseIndex + 4,  K, 0);
+				neighbours[baseIndex + 9][0] = new Neighbour3DDesc(baseIndex + 10, K, 2);
+				neighbours[baseIndex + 9][4] = new Neighbour3DDesc(baseIndex + 8,  K, 0);
+
+				neighbours[baseIndex + 10][3] = new Neighbour3DDesc(baseIndex +  5, K, 0);
+				neighbours[baseIndex + 10][1] = new Neighbour3DDesc(baseIndex + 11, K, 0);
+				neighbours[baseIndex + 10][0] = new Neighbour3DDesc(baseIndex +  9, K, 2);
+				neighbours[baseIndex + 10][4] = new Neighbour3DDesc(baseIndex +  4, K, 1);
+
+
+				neighbours[baseIndex + 11][3] = new Neighbour3DDesc(baseIndex +  6, K, 0);
+				neighbours[baseIndex + 11][1] = new Neighbour3DDesc(baseIndex +  7, K, 3);
+				neighbours[baseIndex + 11][0] = new Neighbour3DDesc(baseIndex +  8, K, 2);
+				neighbours[baseIndex + 11][4] = new Neighbour3DDesc(baseIndex + 10, K, 0);
+			}
+			
+
+			int lastIndex = Utils.getSurfaceVolume(a, b, c, d) - 1;
+			int secondLastIndex = Utils.getSurfaceVolume(a, b, c, d) - 2;
+			
+			int baseIndex = lastIndex - 13;
+			neighbours[lastIndex][0] = new Neighbour3DDesc(baseIndex + 10, J, 3);
+			neighbours[lastIndex][1] = new Neighbour3DDesc(baseIndex + 13, I, 1);
+			neighbours[lastIndex][2] = new Neighbour3DDesc(baseIndex + 9, I, 2);
+			neighbours[lastIndex][3] = new Neighbour3DDesc(baseIndex + 2, J, 1);
+			neighbours[lastIndex][4] = new Neighbour3DDesc(baseIndex + 4, I, 3);
+			neighbours[lastIndex][5] = new Neighbour3DDesc(baseIndex + 5, 0, 0);
+
+			neighbours[secondLastIndex][0] = new Neighbour3DDesc(baseIndex + 11, J, 3);
+			neighbours[secondLastIndex][1] = new Neighbour3DDesc(baseIndex + 7, I, 1);
+			neighbours[secondLastIndex][2] = new Neighbour3DDesc(baseIndex + 8, I, 2);
+			neighbours[secondLastIndex][3] = new Neighbour3DDesc(baseIndex + 3, J, 1);
+			neighbours[secondLastIndex][4] = new Neighbour3DDesc(baseIndex + 12, I, 3);
+			neighbours[secondLastIndex][5] = new Neighbour3DDesc(baseIndex + 6, 0, 0);
+			
+
+			neighbours[baseIndex + 2][2] = new Neighbour3DDesc(secondLastIndex, J, 3);
+			neighbours[baseIndex + 3][2] = new Neighbour3DDesc(lastIndex, J, 3);
+			
+			
+			neighbours[baseIndex + 4][2] = new Neighbour3DDesc(secondLastIndex, I, 1);
+			
+			neighbours[baseIndex + 5][2] = new Neighbour3DDesc(secondLastIndex, I, 0);
+			neighbours[baseIndex + 6][2] = new Neighbour3DDesc(lastIndex, I, 0);
+			
+			neighbours[baseIndex + 7][2] = new Neighbour3DDesc(lastIndex, I, 3);
+			
+			neighbours[baseIndex + 8][2] = new Neighbour3DDesc(lastIndex, I, 2);
+			neighbours[baseIndex + 9][2] = new Neighbour3DDesc(secondLastIndex, I, 2);
+			
+			neighbours[baseIndex + 10][2] = new Neighbour3DDesc(secondLastIndex, J, 1);
+			neighbours[baseIndex + 11][2] = new Neighbour3DDesc(lastIndex, J, 1);
+			
+			
+			
+			//TODO: redo validation check.
+			
+			
+			
+			System.out.println("Check around:");
+			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{3, 7}, {7, 11}, {10, 4}, {4, 2}});
+			
+			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{2, 5}, {5, 10}, {3, 6}, {6, 11}});
+			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{4, 5}, {5, 6}, {7, 8}, {8, 9}, {9, 4}});
+			
+			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{2, 9}, {9, 10}, {3, 8}, {8, 11}});
+			
+			System.out.println("END OF VALIDATION CHECKS");
+			
+			
 			
 		} else {
 			System.out.println("Not ready for different dimensions yet");
