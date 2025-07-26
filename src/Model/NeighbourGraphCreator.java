@@ -184,7 +184,7 @@ public class NeighbourGraphCreator {
 			
 			
 			neighbours[6][5] = new Neighbour3DDesc(1, 0, 0);
-			neighbours[7][5] = new Neighbour3DDesc(1, I, 3);
+			neighbours[7][5] = new Neighbour3DDesc(1, I, 1);
 			neighbours[8][5] = new Neighbour3DDesc(1, I, 2);
 			neighbours[11][5] = new Neighbour3DDesc(1, J, 1);
 
@@ -266,22 +266,22 @@ public class NeighbourGraphCreator {
 			
 
 			int lastIndex = Utils.getSurfaceVolume(a, b, c, d) - 1;
-			int secondLastIndex = Utils.getSurfaceVolume(a, b, c, d) - 2;
+			int secondLastIndex = lastIndex - 1;
 			
 			int baseIndex = lastIndex - 13;
-			neighbours[lastIndex][0] = new Neighbour3DDesc(baseIndex + 10, J, 3);
-			neighbours[lastIndex][1] = new Neighbour3DDesc(baseIndex + 13, I, 1);
-			neighbours[lastIndex][2] = new Neighbour3DDesc(baseIndex + 9, I, 2);
-			neighbours[lastIndex][3] = new Neighbour3DDesc(baseIndex + 2, J, 1);
-			neighbours[lastIndex][4] = new Neighbour3DDesc(baseIndex + 4, I, 3);
-			neighbours[lastIndex][5] = new Neighbour3DDesc(baseIndex + 5, 0, 0);
+			neighbours[secondLastIndex][0] = new Neighbour3DDesc(baseIndex + 10, J, 3);
+			neighbours[secondLastIndex][1] = new Neighbour3DDesc(baseIndex + 13, I, 1);
+			neighbours[secondLastIndex][2] = new Neighbour3DDesc(baseIndex + 9, I, 2);
+			neighbours[secondLastIndex][3] = new Neighbour3DDesc(baseIndex + 2, J, 1);
+			neighbours[secondLastIndex][4] = new Neighbour3DDesc(baseIndex + 4, I, 3);
+			neighbours[secondLastIndex][5] = new Neighbour3DDesc(baseIndex + 5, 0, 0);
 
-			neighbours[secondLastIndex][0] = new Neighbour3DDesc(baseIndex + 11, J, 3);
-			neighbours[secondLastIndex][1] = new Neighbour3DDesc(baseIndex + 7, I, 1);
-			neighbours[secondLastIndex][2] = new Neighbour3DDesc(baseIndex + 8, I, 2);
-			neighbours[secondLastIndex][3] = new Neighbour3DDesc(baseIndex + 3, J, 1);
-			neighbours[secondLastIndex][4] = new Neighbour3DDesc(baseIndex + 12, I, 3);
-			neighbours[secondLastIndex][5] = new Neighbour3DDesc(baseIndex + 6, 0, 0);
+			neighbours[lastIndex][0] = new Neighbour3DDesc(baseIndex + 11, J, 3);
+			neighbours[lastIndex][1] = new Neighbour3DDesc(baseIndex + 7, I, 1);
+			neighbours[lastIndex][2] = new Neighbour3DDesc(baseIndex + 8, I, 2);
+			neighbours[lastIndex][3] = new Neighbour3DDesc(baseIndex + 3, J, 1);
+			neighbours[lastIndex][4] = new Neighbour3DDesc(baseIndex + 12, I, 3);
+			neighbours[lastIndex][5] = new Neighbour3DDesc(baseIndex + 6, 0, 0);
 			
 
 			neighbours[baseIndex + 2][2] = new Neighbour3DDesc(secondLastIndex, J, 3);
@@ -305,7 +305,61 @@ public class NeighbourGraphCreator {
 			
 			//TODO: redo validation check.
 			
-			
+
+			//Validation check:
+			for(int j=2; j<=11; j++) {
+				
+				if(j == 5 || j == 6 || j == 8 || j == 9) {
+					
+					int shouldAdd1 = 0;
+					if( j == 6 || j == 8) {
+						shouldAdd1 = 1;
+					}
+					
+					validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{0 + shouldAdd1, j}, {baseIndex + j, secondLastIndex + shouldAdd1}});
+				
+				} else if(j == 2 || j == 4){
+					int k = -1;
+					int firstTopIndexToUse = -1;
+					int secondTopIndexToUse = -1;
+					
+					int firstBottomIndexToUse = -1;
+					int secondBottomIndexToUse = -1;
+					
+					if(j == 2) {
+						k = 10;
+						firstTopIndexToUse = 0;
+						secondTopIndexToUse = 0;
+						
+						firstBottomIndexToUse = secondLastIndex;
+						secondBottomIndexToUse = secondLastIndex;
+						
+					} else if(j == 4) {
+					    k = 7;
+
+						firstTopIndexToUse = 0;
+						secondTopIndexToUse = 1;
+						
+						firstBottomIndexToUse = secondLastIndex;
+						secondBottomIndexToUse = lastIndex;
+						
+					} else if( j == 3) {
+						k = 11;
+						validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{0, j}, {0, 2}});
+
+						firstTopIndexToUse = 1;
+						secondTopIndexToUse = 1;
+						firstBottomIndexToUse = lastIndex;
+						secondBottomIndexToUse = lastIndex;
+						
+					}
+					
+					
+					validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{firstTopIndexToUse, j}, {baseIndex + j, firstBottomIndexToUse}, {secondBottomIndexToUse, baseIndex + k}, {k, secondTopIndexToUse}});
+					
+					
+				}
+			}
 			
 			System.out.println("Check around:");
 			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{3, 7}, {7, 11}, {10, 4}, {4, 2}});
