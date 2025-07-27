@@ -7,27 +7,12 @@ import java.util.Hashtable;
 
 import Coord.Coord3D_Debug;
 
-//TODO: clean up and make a nice algo that will get A001931
-
 import Model.CuboidToFoldOn4D;
 
-//import Coord.Coord2D;
-//import Coord.CoordWithRotationAndIndex;
-
-//import Cuboid.SymmetryResolver.SymmetryResolver;
-
-//import SolutionResolver.SolutionResolverInterface;
-//import SolutionResolver.StandardResolverForSmallIntersectSolutions;
-//import SolutionResolver.StandardResolverUsingMemory;
-
-//import SymmetryResolver.SymmetryResolver;
-//import GraphUtils.PivotCellDescription;
-//import Model.CuboidToFoldOn;
 import Model.Utils;
 import SymmetryResolver.SymmetryResolverSimple;
 import solutionResolver.SolutionResolverInterface;
 import solutionResolver.SolutionResolverMemBasic;
-//import Model.Utils;
 
 public class DFSIntersectFinderMultCuboid4D {
 
@@ -95,8 +80,6 @@ public class DFSIntersectFinderMultCuboid4D {
 		cuboidToBuild.clearState();
 		cuboidToBringAlong.clearState();
 		
-		//TODO: test by switching this around and making sure it's the same:
-		// also: (param2 - param3) % 3 != 0
 		cuboidToBuild.initializeFirstCell(firstCuboidParams[0], firstCuboidParams[1], firstCuboidParams[2]);
 		cuboidToBringAlong.initializeFirstCell(secondCuboidParams[0], secondCuboidParams[1], secondCuboidParams[2]);
 		
@@ -364,6 +347,30 @@ public class DFSIntersectFinderMultCuboid4D {
 			
 			int neighbourIndexNeeded = (rotReq + NUM_NEIGHBOURS/2) % NUM_NEIGHBOURS;
 			
+			if(ALLOW_CUT_BETWEEN_FACES
+					&& (cuboid4D.getAttachCellIndex(indexOtherCell, neighbourIndexNeeded) != indexNewCell
+					^ cuboidToBringAlong.getAttachCellIndex(indexOtherCell2ndCuboid, neighbourIndexNeeded) != indexNewCell2ndCuboid)
+				) {
+				//TODO: test later!
+				System.out.println("------");
+				System.out.println("------");
+				System.out.println("------");
+				System.out.println("ERROR in cantAddCellBecauseOfOtherPaperNeighbours (ALLOW_CUT_BETWEEN_FACES): cannot add " + indexNewCell + " to cuboid 1 or " + indexNewCell2ndCuboid + " to cuboid 2");
+				System.out.println("Inconsistent!");
+				
+				System.out.println("Cuboid 1:");
+				Utils.printSolution(paperToDevelop, 0, false, numCellsUsedDepth);
+				System.out.println("Cuboid 2:");
+				Utils.printSolution(paperToDevelopFor2ndCuboid, 0, false, numCellsUsedDepth);
+				
+				if(cuboid4D.getAttachCellIndex(indexOtherCell, neighbourIndexNeeded) != indexNewCell) {
+					System.out.println("Cuboid 1 can't attach while cuboid 2 can");
+				} else {
+					System.out.println("Cuboid 2 can't attach while cuboid 1 can");
+				}
+				
+				System.exit(1);
+			}
 			
 			if(ALLOW_CUT_BETWEEN_FACES
 					&& cuboid4D.getAttachCellIndex(indexOtherCell, neighbourIndexNeeded) != indexNewCell
@@ -417,10 +424,7 @@ public class DFSIntersectFinderMultCuboid4D {
 	public static void main(String args[]) {
 		System.out.println("DFSIntersectFinderNoCuboid4d HASH:");
 
-		
-		
 		solveCuboidIntersections(new CuboidToFoldOn4D(2, 1, 1, 1), new CuboidToFoldOn4D(1, 2, 1, 1));		
-		
 		
 		System.out.println("Current UTC timestamp in milliseconds: " + System.currentTimeMillis());
 		
