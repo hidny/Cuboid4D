@@ -243,9 +243,9 @@ public class NeighbourGraphCreator {
 				neighbours[baseIndex + 7][4] = new Neighbour3DDesc(baseIndex + 6,  K, 0);
 
 				neighbours[baseIndex + 8][3] = new Neighbour3DDesc(baseIndex + 3,  K, 2);
-				neighbours[baseIndex + 8][1] = new Neighbour3DDesc(baseIndex + 7,  K, 0);
+				neighbours[baseIndex + 8][1] = new Neighbour3DDesc(baseIndex + 9,  K, 0);
 				neighbours[baseIndex + 8][0] = new Neighbour3DDesc(baseIndex + 11, K, 2);
-				neighbours[baseIndex + 8][4] = new Neighbour3DDesc(baseIndex + 9,  K, 0);
+				neighbours[baseIndex + 8][4] = new Neighbour3DDesc(baseIndex + 7,  K, 0);
 
 				neighbours[baseIndex + 9][3] = new Neighbour3DDesc(baseIndex + 2,  K, 2);
 				neighbours[baseIndex + 9][1] = new Neighbour3DDesc(baseIndex + 4,  K, 0);
