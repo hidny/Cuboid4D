@@ -1,4 +1,4 @@
-package SingleIntersectSolve;
+package tests;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import SymmetryResolver.SymmetryResolverSimple;
 import solutionResolver.SolutionResolverInterface;
 import solutionResolver.SolutionResolverMemBasic;
 
-public class DFSIntersectFinderMultCuboid4D {
+public class DFSIntersectFinderMultTestSameShapes {
 
 	
 	public static final int NUM_ROTATIONS = 6;
