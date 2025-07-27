@@ -146,8 +146,6 @@ public class NeighbourGraphCreator {
 			
 		} else if(b == 2 && c == 1 && d == 1) {
 			
-
-			// Wrong: 3,2,0   13,1,0   11,5,0   1,1,0
 			
 			//Neighbours to index 0:
 			neighbours[0][0] = new Neighbour3DDesc(10, J, 1);
@@ -305,7 +303,6 @@ public class NeighbourGraphCreator {
 			
 			
 			
-			//TODO: redo validation check.
 
 			validateBidirectional(neighbours);
 
@@ -364,6 +361,12 @@ public class NeighbourGraphCreator {
 				}
 			}
 			
+			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{0, 2}, {baseIndex + 2, secondLastIndex}, {secondLastIndex, baseIndex + 10}, {10, 0}});
+			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{1, 3}, {baseIndex + 3, lastIndex}, {lastIndex, baseIndex + 11}, {11, 1}});
+			
+			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{0, 4}, {baseIndex + 4, secondLastIndex}, {lastIndex, baseIndex + 7}, {7, 1}});
+			
+			
 			System.out.println("Check around:");
 			validationCheckSameRotationAxisAndAmt(neighbours, new int[][] {{3, 7}, {7, 11}, {10, 4}, {4, 2}});
 			
@@ -386,7 +389,6 @@ public class NeighbourGraphCreator {
 		}
 
 		validateBidirectional(neighbours);
-		
 		return neighbours;
 	}
 	
@@ -406,6 +408,22 @@ public class NeighbourGraphCreator {
 				
 					if(neighbours[indexNeigh][k].cellIndex == i) {
 						isBidirectional = true;
+						
+						if( neighbours[indexNeigh][k].rotAxis != neighbours[i][j].rotAxis ) {
+							System.out.println("ERROR in validateBidirectional: cell rotation axis changes");
+							System.exit(1);
+						}
+						
+						int tmp = neighbours[indexNeigh][k].rotAmount;
+						if(neighbours[indexNeigh][k].rotAmount == 1) {
+							tmp = 3;
+						} else if(neighbours[indexNeigh][k].rotAmount == 3){
+							tmp = 1;
+						}
+						if( tmp != neighbours[i][j].rotAmount ) {
+							System.out.println("ERROR in validateBidirectional: cell rotAmount isn't reflected.");
+							System.exit(1);
+						}
 					}
 				}
 				
