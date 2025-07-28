@@ -148,9 +148,9 @@ public class DFSIntersectFinderMultCuboid4D {
 			if(temp >= 1) {
 				System.out.println("found a solution:");
 				System.out.println("Cuboid 1:");
-				Utils.printSolution(paperToDevelop, 0, false, numCellsUsedDepth);
+				Utils.printSolution(paperToDevelop, solutionResolver.getNumUniqueFound(), false, numCellsUsedDepth);
 				System.out.println("Cuboid 2:");
-				Utils.printSolution(paperToDevelopFor2ndCuboid, 0, false, numCellsUsedDepth);
+				Utils.printSolution(paperToDevelopFor2ndCuboid, solutionResolver.getNumUniqueFound(), false, numCellsUsedDepth);
 				
 				System.out.println();
 				
