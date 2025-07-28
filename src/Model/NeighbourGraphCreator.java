@@ -11,7 +11,7 @@ public class NeighbourGraphCreator {
 	// This goal seems to already be accomplished and what's returned looks good.
 	
 	public static int NUM_NEIGHBOURS = 6;
-	public static int NUM_DIMS = 6;
+	public static int NUM_DIMS = 3;
 
 	public static final int I = 0;
 	public static final int J = 1;
@@ -414,15 +414,23 @@ public class NeighbourGraphCreator {
 							System.exit(1);
 						}
 						
-						int tmp = neighbours[indexNeigh][k].rotAmount;
+						int neighRotAmount = neighbours[indexNeigh][k].rotAmount;
 						if(neighbours[indexNeigh][k].rotAmount == 1) {
-							tmp = 3;
+							neighRotAmount = 3;
 						} else if(neighbours[indexNeigh][k].rotAmount == 3){
-							tmp = 1;
+							neighRotAmount = 1;
 						}
-						if( tmp != neighbours[i][j].rotAmount ) {
+						if( neighRotAmount != neighbours[i][j].rotAmount ) {
 							System.out.println("ERROR in validateBidirectional: cell rotAmount isn't reflected.");
 							System.exit(1);
+						}
+						
+						if(neighRotAmount == 0) {
+							if((j + NUM_DIMS) % NUM_NEIGHBOURS != k) {
+								System.out.println(i + ", " + j + ": " + k);
+								System.out.println("ERROR in validateBidirectional: cellIndex isn't the opposite direction when rotation amount is 0.");
+								System.exit(1);
+							}
 						}
 					}
 				}

@@ -92,12 +92,14 @@ public class Utils {
 						if(found) {
 							if(paperToDevelop[indexFound] instanceof Coord3D_Debug) {
 	
-								System.out.print(((Coord3D_Debug)paperToDevelop[indexFound]).debugIndex + "," + ((Coord3D_Debug)paperToDevelop[indexFound]).debugDir1 + "," + ((Coord3D_Debug)paperToDevelop[indexFound]).debugDir2 + "   ");
+								String SPACE_REMAINING = "     ".substring(("" + ((Coord3D_Debug)paperToDevelop[indexFound]).debugIndex).length());
+								
+								System.out.print(((Coord3D_Debug)paperToDevelop[indexFound]).debugIndex + "," + ((Coord3D_Debug)paperToDevelop[indexFound]).debugDir1 + "," + ((Coord3D_Debug)paperToDevelop[indexFound]).debugDir2 + SPACE_REMAINING);
 							} else {
-								System.out.print("########");
+								System.out.print("#########");
 							}
 						} else {
-							System.out.print("_____   ");
+							System.out.print("______   ");
 							
 						}
 					} else {

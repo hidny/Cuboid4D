@@ -14,7 +14,7 @@ import SymmetryResolver.SymmetryResolverSimple;
 import solutionResolver.SolutionResolverInterface;
 import solutionResolver.SolutionResolverMemBasic;
 
-public class DFSIntersectFinderMultCuboid4D {
+public class DFSIntersectFinderMultCuboid4D_2 {
 
 	
 	public static final int NUM_ROTATIONS = 6;
@@ -31,9 +31,9 @@ public class DFSIntersectFinderMultCuboid4D {
 			System.exit(1);
 		}
 		
-		int firstStartIndex = 7;
+		int firstStartIndex = 0;
 		int firstStartBlockDir1 = 0;
-		int FirstStartBlockDir2 = 2;
+		int FirstStartBlockDir2 = 1;
 		
 		int firstCuboidParams[] = new int[] {firstStartIndex, firstStartBlockDir1, FirstStartBlockDir2};
 		
@@ -378,7 +378,7 @@ public class DFSIntersectFinderMultCuboid4D {
 
 		//solveCuboidIntersections(new CuboidToFoldOn4D(2, 1, 1, 1), new CuboidToFoldOn4D(1, 2, 1, 1));		
 
-		solveCuboidIntersections(new CuboidToFoldOn4D(4, 2, 1, 1), new CuboidToFoldOn4D(7, 1, 1, 1));
+		solveCuboidIntersections(new CuboidToFoldOn4D(7, 1, 1, 1), new CuboidToFoldOn4D(4, 2, 1, 1));
 		System.out.println("Current UTC timestamp in milliseconds: " + System.currentTimeMillis());
 		
 		System.out.println("END OF PROGRAM");
