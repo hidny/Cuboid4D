@@ -43,12 +43,18 @@ public class DFSIntersectFinderMultCuboid4D_2 {
 		
 		int secondCuboidParams[] = new int[] {secondStartIndex, secondStartBlockDir1, secondStartBlockDir2};
 		
-		sanityCheckDiffShapes(cuboidToBuild, cuboidToBringAlong, solutionResolver, firstCuboidParams, secondCuboidParams);
+		System.out.println("Map of Cuboid 1:");
+		cuboidToBuild.printCanonicalCuboid4d( getStandardGridSize(cuboidToBuild));
+		
+		System.out.println("Map of Cuboid 2:");
+		cuboidToBringAlong.printCanonicalCuboid4d( getStandardGridSize(cuboidToBuild));
+		
+		solveCuboidIntersections(cuboidToBuild, cuboidToBringAlong, solutionResolver, firstCuboidParams, secondCuboidParams);
 		
 	}
 
 	
-	public static void sanityCheckDiffShapes(CuboidToFoldOn4D cuboidToBuild, CuboidToFoldOn4D cuboidToBringAlong, SolutionResolverInterface solutionResolver,
+	public static void solveCuboidIntersections(CuboidToFoldOn4D cuboidToBuild, CuboidToFoldOn4D cuboidToBringAlong, SolutionResolverInterface solutionResolver,
 			int firstCuboidParams[], int secondCuboidParams[]) {
 		
 		System.out.println("Current UTC timestamp in milliseconds: " + System.currentTimeMillis());
@@ -110,6 +116,10 @@ public class DFSIntersectFinderMultCuboid4D_2 {
 		System.out.println("1st cuboid stats: " + firstCuboidParams[0] + " and a rotation index of (" + firstCuboidParams[1] +", " + firstCuboidParams[2] + ").");
 		System.out.println("Current UTC timestamp in milliseconds: " + System.currentTimeMillis());
 		
+	}
+	
+	public static int getStandardGridSize(CuboidToFoldOn4D cuboidToBuild) {
+		return 4 * cuboidToBuild.getNumCellsToFill();
 	}
 
 	

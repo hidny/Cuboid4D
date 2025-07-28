@@ -1,4 +1,8 @@
 package Model;
+import java.util.HashMap;
+
+import Coord.Coord3D;
+import Coord.Coord3D_Debug;
 import Coord.Neighbour3DDesc;
 
 public class CuboidToFoldOn4D {
@@ -298,6 +302,91 @@ public class CuboidToFoldOn4D {
 		for(int i=0; i<cellsUsed.length; i++) {
 			cellsUsed[i] = false;
 		}
+	}
+	
+	public void printCanonicalCuboid4d(int GRID_SIZE) {
+		
+		CuboidToFoldOn4D tmp = new CuboidToFoldOn4D(this);
+		Coord3D_Debug paperToDevelop[] = new Coord3D_Debug[tmp.getNumCellsToFill()];
+		HashMap <Integer, Integer> cellIndexToOrderOfDev = new HashMap <Integer, Integer>();
+		
+		
+		int firstIndex = 0;
+		int firstDir = 0;
+		int secondDir = 1;
+		
+		tmp.resetState();
+		
+		tmp.initializeFirstCell(firstIndex, firstDir, secondDir);
+		int numAttached = 1;
+		paperToDevelop[0] = new Coord3D_Debug(GRID_SIZE/2, GRID_SIZE/2, GRID_SIZE/2, firstIndex, firstDir, secondDir);
+		
+		cellIndexToOrderOfDev.put(Utils.toHashNum(paperToDevelop[0], GRID_SIZE), 0);
+		
+		int nugdeBasedOnRotation[][] = {{1, 0, 0, -1, 0, 0}, {0, 1, 0 , 0, -1, 0}, {0, 0, 1 , 0, 0, -1}};
+		
+		String dimsString = "";
+		for(int i=0; i<dimensions.length; i++) {
+			if(i<dimensions.length - 1) {
+				dimsString += dimensions[i] + " x ";
+			} else {
+				dimsString += dimensions[i];
+			}
+		}
+		System.out.println("Printing canonical map of the " + dimsString + " cuboid:");
+		
+		while(numAttached < tmp.getNumCellsToFill()) {
+			
+			for(int i=0; i<numAttached; i++) {
+
+				int indexToUse = cellIndexToOrderOfDev.get(Utils.toHashNum(paperToDevelop[i], GRID_SIZE));
+				
+				for(int j=0; j<NUM_NEIGHBOURS; j++) {
+						
+					if(tmp.couldAttachCell(indexToUse, j)) {
+						
+						int modelAttachmentIndex0To5 = neighbourIndexToUse[j][tmp.cellDir1[indexToUse]][tmp.cellDir2[indexToUse]];
+
+						int localRotationAxisIndex = neighbours[indexToUse][modelAttachmentIndex0To5].rotAxis;
+						
+						int localCellDir1 = getNewCellDirAfterRotateByAxis
+								[localRotationAxisIndex]
+								[neighbours[indexToUse][modelAttachmentIndex0To5].rotAmount]
+								[LOCAL_DIR_1];
+						
+						int localCellDir2 = getNewCellDirAfterRotateByAxis
+								[localRotationAxisIndex]
+								[neighbours[indexToUse][modelAttachmentIndex0To5].rotAmount]
+								[LOCAL_DIR_2];
+						
+						
+						if(modelAttachmentIndex0To5 == j && localCellDir1 == firstDir && localCellDir2 == secondDir) {
+
+							int newIndex = tmp.getAttachCellIndex(indexToUse, j);
+							tmp.attachCell(indexToUse, j);
+							
+							int new_i = paperToDevelop[i].i + nugdeBasedOnRotation[0][j];
+							int new_j = paperToDevelop[i].j + nugdeBasedOnRotation[1][j];
+							int new_k = paperToDevelop[i].k + nugdeBasedOnRotation[2][j];
+							
+							paperToDevelop[numAttached] = new Coord3D_Debug(new_i, new_j, new_k, newIndex, tmp.cellDir1[newIndex], tmp.cellDir2[newIndex]);
+							
+							if(tmp.cellDir1[newIndex] != firstDir || tmp.cellDir2[newIndex] != secondDir) {
+								System.out.println("Oops! Mistake in printCanonicalCuboid4D");
+								System.exit(1);
+							}
+							
+							cellIndexToOrderOfDev.put(Utils.toHashNum(paperToDevelop[numAttached], GRID_SIZE), newIndex);
+							numAttached++;
+						}
+					}
+				}
+				
+			}
+		}
+		
+		Utils.printSolution(paperToDevelop, 0, true, tmp.getNumCellsToFill());
+		
 	}
 
 	public static void main(String args[]) {
