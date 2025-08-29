@@ -68,9 +68,9 @@ public class SolutionResolverMemBasic implements SolutionResolverInterface {
 			solutionsFound.add(ret);
 			lastSolution = ret;
 			
-			if(solutionsFound.size() % 100000 == 0) {
+			//if(solutionsFound.size() % 100000 == 0) {
 				Model.Utils.printSolution(paperToDevelop, this.getNumUniqueFound(), IS_VALID_SOLUTION, paperToDevelop.length);
-			}
+			//}
 			
 			return 1;
 		} else {

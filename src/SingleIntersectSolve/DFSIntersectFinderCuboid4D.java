@@ -84,6 +84,8 @@ public class DFSIntersectFinderCuboid4D {
 		
 		System.out.println("Current UTC timestamp in milliseconds: " + System.currentTimeMillis());
 		
+
+		
 		Coord3D_Debug paperToDevelop[] = new Coord3D_Debug[cuboidToBuild.getNumCellsToFill()];
 		for(int i=0; i<paperToDevelop.length; i++) {
 			paperToDevelop[i] = null;
@@ -91,6 +93,9 @@ public class DFSIntersectFinderCuboid4D {
 		
 		//int GRID_SIZE = 2*Utils.getSurfaceVolume(cuboidToBuild.getDimensions());
 		int GRID_SIZE = 4*cuboidToBuild.getNumCellsToFill();
+		
+		System.out.println("Map of Hypercuboid:");
+		cuboidToBuild.printCanonicalCuboid4d( GRID_SIZE );
 		
 		Hashtable <Integer, Integer> indexCuboidOnPaper = new Hashtable<Integer, Integer>();
 		
@@ -449,9 +454,9 @@ public class DFSIntersectFinderCuboid4D {
 		
 		//solveCuboidIntersections(new CuboidToFoldOn(13, 1, 1), new CuboidToFoldOn(3, 3, 3));
 		
-		//solveCuboidIntersections(new CuboidToFoldOn4D(1, 1, 1, 1));
+		solveCuboidIntersections(new CuboidToFoldOn4D(1, 1, 1, 1));
 		
-		solveCuboidIntersections(new CuboidToFoldOn4D(2, 1, 1, 1));		
+		//solveCuboidIntersections(new CuboidToFoldOn4D(2, 1, 1, 1));		
 		
 		// solveCuboidIntersections(new CuboidToFoldOn4D(1, 2, 1, 1));
 		
