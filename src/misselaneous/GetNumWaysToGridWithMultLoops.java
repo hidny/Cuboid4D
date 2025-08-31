@@ -1,4 +1,4 @@
-package tests;
+package misselaneous;
 
 import java.math.BigInteger;
 
@@ -21,9 +21,15 @@ import java.math.BigInteger;
 // Anthony J. Guttmann and Iwan Jensen, Self-avoiding walks and polygons crossing a domain on the square and hexagonal lattices, arXiv:2208.06744 [math-ph], Aug 13 2022, Table D3.
 
 
-//Taking inspiration from iwen Jenson's Transfer matrix method.
+//My strategy takes inspiration from Iwan Jenson's Transfer matrix method. (He probably didn't originate it, but I studied a paper he wrote that used it)
 
 //I have to write about this in the paper...
+
+//Update:
+// Pen & paper suggests that the mult factor is 1.8
+// i.e: as N-> inf: A(n+1)=(1.8)^(n^2)
+
+//Update 2: This is probably not worth sharing...
 
 public class GetNumWaysToGridWithMultLoops {
 
@@ -48,6 +54,11 @@ public class GetNumWaysToGridWithMultLoops {
 			
 			if(n > 1) {
 
+				double exp = 0.5;
+				double experimental = numDigits/((n-exp)*(n-exp));
+				System.out.println("Digits div (n-exp)^2: " + experimental);
+				System.out.println("Estimate lambda: " + Math.pow(2, experimental));
+				
 				double zerothOne = numDigits/((n-1)*(n-1));
 				System.out.println("Digits div (n-1)^2: " + zerothOne);
 				System.out.println("Estimate lambda: " + Math.pow(2, zerothOne));
