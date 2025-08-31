@@ -28,6 +28,9 @@ import java.math.BigInteger;
 //Update:
 // Pen & paper suggests that the mult factor is 1.8
 // i.e: as N-> inf: A(n+1)=(1.8)^(n^2)
+// Key is that (at the limit as n-> inf), the pairs of binary digits that are adjacent and match vs adjacent and don't match in a single column are the only thing that matters to the counting
+// of the # of solutions. So we could summarize a column with 100 elements by saying "33 mismatches and (99-33) matches" without needing to know where those mismatches are.
+// Unfortunately, I didn't prove/disprove the key idea even though it's easy to check...
 
 //Update 2: This is probably not worth sharing...
 
