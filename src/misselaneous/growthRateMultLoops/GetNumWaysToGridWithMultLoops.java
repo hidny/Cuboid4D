@@ -1,4 +1,4 @@
-package misselaneous;
+package misselaneous.growthRateMultLoops;
 
 import java.math.BigInteger;
 
@@ -34,6 +34,11 @@ import java.math.BigInteger;
 
 //Update 2: This is probably not worth sharing...
 
+//Best guess: 1.796 to 1.799
+//or 1.79689 (N=21)
+//or 1.7968831 (N=22)
+//or 1.797655269765485 (N=23)
+
 public class GetNumWaysToGridWithMultLoops {
 
 	public static int N = 23;
@@ -65,6 +70,11 @@ public class GetNumWaysToGridWithMultLoops {
 				double zerothOne = numDigits/((n-1)*(n-1));
 				System.out.println("Digits div (n-1)^2: " + zerothOne);
 				System.out.println("Estimate lambda: " + Math.pow(2, zerothOne));
+				
+
+				double zeroPoint8 = numDigits/((n-0.8)*(n-0.8));
+				System.out.println("Digits div (n-0.8)^2: " + zeroPoint8);
+				System.out.println("Estimate lambda 0.8: " + Math.pow(2, zeroPoint8));
 			}
 			
 			double firstOne = numDigits/(n*n);
